@@ -7,7 +7,7 @@ function Flower(x, y) {
   this.xdir = 1;
 
   this.grow = function() {
-    this.r = this.r + 2;
+    this.r = 0;
   }
 
   this.shiftDown = function() {
