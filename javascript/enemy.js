@@ -2,12 +2,12 @@
 function Enemy(x, y) {
   this.x = x;
   this.y = y;
-  this.r = 30;
-
+  this.r = 15;
+  this.toDelete = false;
   this.xdir = 1;
 
-  this.grow = function() {
-    this.r = 0;
+  this.destroy = function() {
+    this.toDelete = true;
   }
 
   this.shiftDown = function() {

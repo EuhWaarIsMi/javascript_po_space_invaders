@@ -10,7 +10,7 @@ function Bullet(x, y) {
     ellipse(this.x, this.y, this.r*2, this.r*2);
   }
 
-  this.evaporate = function() {
+  this.destroy = function() {
     this.toDelete = true;
   }
 
