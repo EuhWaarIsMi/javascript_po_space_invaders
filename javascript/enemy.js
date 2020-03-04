@@ -1,5 +1,5 @@
 
-function Flower(x, y) {
+function Enemy(x, y) {
   this.x = x;
   this.y = y;
   this.r = 30;

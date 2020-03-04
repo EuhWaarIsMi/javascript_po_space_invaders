@@ -1,13 +1,12 @@
 var ship;
-var flowers = [];
-var drops = [];
+var bullets = [];
+var enemies = [];
 
 function setup() {
   createCanvas(600, 400);
   ship = new Ship();
-  // drop = new Drop(width/2, height/2);
   for (var i = 0; i < 6; i++) {
-    flowers[i] = new Flower(i*80+80, 60);
+    enemies[i] = new Enemy(i*80+80, 60);
   }
 }
 
@@ -16,36 +15,36 @@ function draw() {
   ship.show();
   ship.move();
 
-  for (var i = 0; i < drops.length; i++) {
-    drops[i].show();
-    drops[i].move();
-    for (var j = 0; j < flowers.length; j++) {
-      if (drops[i].hits(flowers[j])) {
-        flowers[j].grow();
-        drops[i].evaporate();
+  for (var i = 0; i < bullets.length; i++) {
+    bullets[i].show();
+    bullets[i].move();
+    for (var j = 0; j < enemies.length; j++) {
+      if (bullets[i].hits(enemies[j])) {
+        enemies[j].grow();
+        bullets[i].evaporate();
       }
     }
   }
 
   var edge = false;
 
-  for (var i = 0; i < flowers.length; i++) {
-    flowers[i].show();
-    flowers[i].move();
-    if (flowers[i].x > width || flowers[i].x < 0) {
+  for (var i = 0; i < enemies.length; i++) {
+    enemies[i].show();
+    enemies[i].move();
+    if (enemies[i].x > width || enemies[i].x < 0) {
       edge = true;
     }
   }
 
   if (edge) {
-    for (var i = 0; i < flowers.length; i++) {
-      flowers[i].shiftDown();
+    for (var i = 0; i < enemies.length; i++) {
+      enemies[i].shiftDown();
     }
   }
 
-  for (var i = drops.length-1; i >= 0; i--) {
-    if (drops[i].toDelete) {
-      drops.splice(i, 1);
+  for (var i = bullets.length-1; i >= 0; i--) {
+    if (bullets[i].toDelete) {
+      bullets.splice(i, 1);
     }
   }
 
@@ -61,8 +60,8 @@ function keyReleased() {
 
 function keyPressed() {
   if (key === ' ') {
-    var drop = new Drop(ship.x, height);
-    drops.push(drop);
+    var bullet = new Bullet(ship.x, height);
+    bullets.push(bullet);
   }
 
   if (keyCode === RIGHT_ARROW) {

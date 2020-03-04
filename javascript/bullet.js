@@ -1,4 +1,4 @@
-function Drop(x, y) {
+function Bullet(x, y) {
   this.x = x;
   this.y = y;
   this.r = 8;
@@ -14,9 +14,9 @@ function Drop(x, y) {
     this.toDelete = true;
   }
 
-  this.hits = function(flower) {
-    var d = dist(this.x, this.y, flower.x, flower.y);
-    if (d < this.r + flower.r) {
+  this.hits = function(bullet) {
+    var d = dist(this.x, this.y, bullet.x, bullet.y);
+    if (d < this.r + bullet.r) {
       return true;
     } else {
       return false;
