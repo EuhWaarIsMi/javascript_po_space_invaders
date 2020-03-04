@@ -1,12 +1,13 @@
 var ship;
+var aantalEnemies = 11;
 var bullets = [];
 var enemies = [];
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
   ship = new Ship();
-  for (var n = 0; n < 6; n++) {
-    enemies[n] = new Enemy(n*80+80, 60);
+  for (var n = 0; n < aantalEnemies; n++) {
+    enemies[n] = new Enemy(n*50+(0.25*width), 60);
   }
 }
 
@@ -31,7 +32,7 @@ function draw() {
   for (var n = 0; n < enemies.length; n++) {
     enemies[n].show();
     enemies[n].move();
-    if (enemies[n].x > width || enemies[n].x < 0) {
+    if (enemies[n].x > 0.75*width || enemies[n].x < 0.25*width) {
       edge = true;
     }
   }
