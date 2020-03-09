@@ -70,6 +70,7 @@ function keyPressed() {
   if (key === ' ') {
     var bullet = new Bullet(ship.x, height);
     bullets.push(bullet);
+    schietgeluid.play();
   }
 
   if (keyCode === RIGHT_ARROW) {
