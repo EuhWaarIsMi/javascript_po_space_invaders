@@ -2,6 +2,7 @@ var ship;
 var aantalEnemies = 11;
 var bullets = [];
 var enemies = [];
+var schietgeluid;
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
