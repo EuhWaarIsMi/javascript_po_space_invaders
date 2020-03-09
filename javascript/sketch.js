@@ -2,19 +2,22 @@ var ship;
 var aantalEnemies = 11;
 var bullets = [];
 var enemies = [];
+var lMarge = 0.25;
+var rMarge = 0.75;
+var tijd;
+
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
-  ship = new Ship();
+  ship = new Ship(lMarge, rMarge);
   for (var n = 0; n < aantalEnemies; n++) {
-    enemies[n] = new Enemy(n*50+(0.25*width), 60);
+    enemies[n] = new Enemy(n*50+(lMarge*width), 60);
   }
 }
 
 function draw() {
   background(51);
-  ship.show();
-  ship.move();
+  let s = second();
 
   for (var n = 0; n < bullets.length; n++) {
     bullets[n].show();
@@ -27,12 +30,15 @@ function draw() {
     }
   }
 
+  ship.show();
+  ship.move();
+
   var edge = false;
 
   for (var n = 0; n < enemies.length; n++) {
     enemies[n].show();
     enemies[n].move();
-    if (enemies[n].x > 0.75*width || enemies[n].x < 0.25*width) {
+    if (enemies[n].x > rMarge*width || enemies[n].x < lMarge*width) {
       edge = true;
     }
   }
@@ -56,6 +62,9 @@ function draw() {
   }
 
 
+  fill('white');
+  text("De tijd is " + s,50,50);
+
 }
 
 function keyReleased() {
@@ -67,7 +76,7 @@ function keyReleased() {
 
 function keyPressed() {
   if (key === ' ') {
-    var bullet = new Bullet(ship.x, height);
+    var bullet = new Bullet(ship.x, ship.y);
     bullets.push(bullet);
   }
 
