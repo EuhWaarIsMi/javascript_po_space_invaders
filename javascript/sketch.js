@@ -4,9 +4,13 @@ var bullets = [];
 var enemies = [];
 var schietgeluid;
 var slider;
+var enemy_hit;
+var muziek;
 
 function preload() {
     schietgeluid = loadSound("javascript/schietgeluid.mp3");
+    enemy_hit = loadSound("enemy_hit.mp3");
+    muziek = loadSound("muziek.mp3");
 }
 
 function setup() {
@@ -16,6 +20,7 @@ function setup() {
     enemies[n] = new Enemy(n*50+(0.25*width), 60);
   }
     slider = createSlider(0, 1, 0.5, 0.01);
+    muziek.loop();
 }
 
 function draw() {
@@ -23,7 +28,7 @@ function draw() {
   ship.show();
   ship.move();
   schietgeluid.setVolume(slider.value());
-  slider.position(1750, 10);
+  slider.position(0.9 * width, 0.1 * height);
 
   for (var n = 0; n < bullets.length; n++) {
     bullets[n].show();
@@ -61,6 +66,8 @@ function draw() {
   for (var n = 0; n < enemies.length; n++) {
       if (enemies[n].toDelete) {
         enemies.splice(n, 1);
+        enemy_hit.setVolume(slider.value());
+        enemy_hit.play();
       }
   }
 
