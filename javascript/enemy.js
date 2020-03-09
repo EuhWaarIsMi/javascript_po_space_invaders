@@ -22,7 +22,7 @@ function Enemy(x, y) {
   this.show = function() {
     noStroke();
     fill(255, 0, 200, 150);
-    ellipse(this.x, this.y, this.r*2, this.r*2);
+    rect(this.x, this.y, this.r*2, this.r*2);
   }
 
 }

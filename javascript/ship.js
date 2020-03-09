@@ -5,7 +5,7 @@ function Ship() {
   this.show = function() {
     fill(255);
     rectMode(CENTER);
-    rect(this.x, height-20, 60, 60);
+    rect(this.x, height-50, 60, 60);
   }
 
   this.setDir = function(dir) {
