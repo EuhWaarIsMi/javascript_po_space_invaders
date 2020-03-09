@@ -3,6 +3,11 @@ var aantalEnemies = 11;
 var bullets = [];
 var enemies = [];
 var schietgeluid;
+var slider;
+
+function preload() {
+    schietgeluid = loadSound("javascript/schietgeluid.mp3");
+}
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
@@ -10,12 +15,15 @@ function setup() {
   for (var n = 0; n < aantalEnemies; n++) {
     enemies[n] = new Enemy(n*50+(0.25*width), 60);
   }
+    slider = createSlider(0, 1, 0.5, 0.01);
 }
 
 function draw() {
   background(51);
   ship.show();
   ship.move();
+  schietgeluid.setVolume(slider.value());
+  slider.position(1750, 10);
 
   for (var n = 0; n < bullets.length; n++) {
     bullets[n].show();
