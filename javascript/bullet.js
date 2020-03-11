@@ -1,8 +1,9 @@
-function Bullet(x, y) {
+function Bullet(x, y, type) {
   this.x = x;
   this.y = y;
   this.r = 8;
   this.toDelete = false;
+  this.type = type;
 
   this.show = function() {
     noStroke();
@@ -10,7 +11,11 @@ function Bullet(x, y) {
     ellipse(this.x, this.y, this.r*2, this.r*2);
   }
 
-  this.destroy = function() {
+  this.destroyEnemy = function() {
+    this.toDelete = true;
+  }
+
+  this.destroyShip = function() {
     this.toDelete = true;
   }
 
@@ -24,7 +29,12 @@ function Bullet(x, y) {
   }
 
   this.move = function() {
-    this.y = this.y - 8;
+    if (this.type == 'ship') {
+        this.y = this.y - 8;
+    } else if (this.type = 'enemy') {
+        this.y = this.y + 8;
+    }
+    
   }
 
 }
