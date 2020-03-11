@@ -6,6 +6,7 @@ var schietgeluid;
 var slider;
 var enemy_hit;
 var muziek;
+var volume;
 
 function preload() {
     schietgeluid = loadSound("javascript/schietgeluid.mp3");
@@ -28,7 +29,10 @@ function draw() {
   ship.show();
   ship.move();
   schietgeluid.setVolume(slider.value());
+  muziek.setVolume(slider.value());
   slider.position(0.9 * width, 0.1 * height);
+  fill("white");
+    volume = text("volume", 0.9 * width, );
 
   for (var n = 0; n < bullets.length; n++) {
     bullets[n].show();
