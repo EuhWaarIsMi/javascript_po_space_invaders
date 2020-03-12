@@ -4,7 +4,7 @@ function Ship(lMarge, rMarge) {
   this.lMarge = lMarge;
   this.rMarge = rMarge;
   this.xdir = 0;
-  this.lives = 3;       
+  this.lives = 3;      
 
   this.show = function() {
     fill(255);
@@ -15,6 +15,8 @@ function Ship(lMarge, rMarge) {
   this.setDir = function(dir) {
     this.xdir = dir;
   }
+
+
 
   this.move = function(dir, lMarge, rMarge) {
     this.x = constrain(this.x, this.lMarge*width, this.rMarge*width);

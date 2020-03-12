@@ -9,6 +9,7 @@ var currentTime;
 var oldTime;
 var timeMargin;
 var cooldownCounter = 1;
+var cooldownCounter2 =0;
 var yEnemy = 60;
 var xEnemy = 0;
 var aantalKogelsVijand = 2;
@@ -18,8 +19,7 @@ function setup() {
   createCanvas(innerWidth, innerHeight);
   ship = new Ship(lMarge, rMarge);
   for (var n = 0; n < aantalEnemiesPerRij*aantalRijen; n++) {
-    if (n == 10 || n == 21 || n == 32 || n == 43) {
-        
+    if (n == 10 || n == 21 || n == 32 || n == 43) {    
         enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy);
         xEnemy = 0;
         yEnemy += 40;
@@ -43,6 +43,7 @@ function draw() {
   timeMargin = currentTime - oldTime;
   if (timeMargin == 1) {
       cooldownCounter++;
+      cooldownCounter2++;
   }
 
   //Update kogels
@@ -50,7 +51,7 @@ function draw() {
     bullets[n].show();
     bullets[n].move();
     for (var m = 0; m < enemies.length; m++) {
-      if (bullets[n].hits(enemies[m])) {
+      if (bullets[n].hits(enemies[m]) && bullets[n].type == 'ship') {
         enemies[m].destroy();
         bullets[n].destroy();
       }
@@ -67,11 +68,12 @@ function draw() {
   for (var n = 0; n < enemies.length; n++) {
     enemies[n].show();
     enemies[n].move();
-        for (var n =0; n < aantalKogelsVijand; n++) {
-            // var randomGetal = random(enemies);
-            // var bullet = new Bullet(enemy[randomGetal].x, enemy[randomGetal].y, 'enemy');
-            // bullets.push(bullet);
-        }
+    if (cooldownCounter2 == 2) {
+        var bullet = new Bullet(enemies[1].x, enemies[1].y, 'enemy');
+        bullets.push(bullet);
+        cooldownCounter2 = 0;
+    }
+ 
     if (enemies[n].x > rMarge*width || enemies[n].x < lMarge*width) {
       edge = true;
     }
