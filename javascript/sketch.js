@@ -11,6 +11,7 @@ var timeMargin;
 var cooldownCounter = 1;
 var yEnemy = 60;
 var xEnemy = 0;
+var aantalKogelsVijand = 2;
 
 
 function setup() {
@@ -66,6 +67,11 @@ function draw() {
   for (var n = 0; n < enemies.length; n++) {
     enemies[n].show();
     enemies[n].move();
+        for (var n =0; n < aantalKogelsVijand; n++) {
+            // var randomGetal = random(enemies);
+            // var bullet = new Bullet(enemy[randomGetal].x, enemy[randomGetal].y, 'enemy');
+            // bullets.push(bullet);
+        }
     if (enemies[n].x > rMarge*width || enemies[n].x < lMarge*width) {
       edge = true;
     }
@@ -107,7 +113,7 @@ function keyReleased() {
 //Zorgt voor de functionaliteit bij elke toets
 function keyPressed() {
   if (key === ' ' && cooldownCounter >= 1) {
-    var bullet = new Bullet(ship.x, ship.y);
+    var bullet = new Bullet(ship.x, ship.y, 'ship');
     bullets.push(bullet);
     cooldownCounter = 0;
   }

@@ -11,12 +11,8 @@ function Bullet(x, y, type) {
     ellipse(this.x, this.y, this.r*2, this.r*2);
   }
 
-  this.destroyEnemy = function() {
-    this.toDelete = true;
-  }
-
-  this.destroyShip = function() {
-    this.toDelete = true;
+  this.destroy = function() {
+      this.toDelete = true;
   }
 
   this.hits = function(bullet) {
