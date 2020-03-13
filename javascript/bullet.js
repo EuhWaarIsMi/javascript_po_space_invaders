@@ -6,9 +6,21 @@ function Bullet(x, y, type) {
   this.type = type;
 
   this.show = function() {
-    noStroke();
-    fill(150, 0, 255);
-    ellipse(this.x, this.y, this.r*2, this.r*2);
+    if (this.type == 'ship') {
+        push();
+        noStroke();
+        fill(150, 0, 255);
+        ellipse(this.x, this.y, this.r*2, this.r*2);
+        pop();
+    } 
+    else {
+        push();
+        noStroke();
+        fill('red');
+        ellipse(this.x, this.y, this.r*2, this.r*2);
+        pop();
+    }
+
   }
 
   this.destroy = function() {

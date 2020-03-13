@@ -3,6 +3,7 @@ var aantalEnemiesPerRij = 11;
 var aantalRijen = 5;
 var bullets = [];
 var enemies = [];
+var shields = [];
 var lMarge = 0.25;
 var rMarge = 0.75;
 var currentTime;
@@ -13,7 +14,6 @@ var cooldownCounter2 =0;
 var yEnemy = 60;
 var xEnemy = 0;
 var aantalKogelsVijand = 2;
-
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
@@ -30,6 +30,13 @@ function setup() {
     }
     
   }
+  
+  var shield = new Shield(0.35);
+  shields.push(shield);
+  shield = new Shield(0.5);
+  shields.push(shield);
+  shield = new Shield(0.65);
+  shields.push(shield);
 }
 
 function draw() {
@@ -50,13 +57,30 @@ function draw() {
   for (var n = 0; n < bullets.length; n++) {
     bullets[n].show();
     bullets[n].move();
+    if (bullets[n].hits(ship) && bullets[n].type == 'enemy') {
+        bullets[n].destroy();
+        ship.destroy();
+    }
     for (var m = 0; m < enemies.length; m++) {
       if (bullets[n].hits(enemies[m]) && bullets[n].type == 'ship') {
         enemies[m].destroy();
         bullets[n].destroy();
-      }
+      } 
     }
+    for (var m = 0; m < shields.length; m++) {
+        if (bullets[n].hits(shields[m])) {
+            bullets[n].destroy();
+            shields[m].destroy();
+        }
+    }
+    
   }
+
+  //Shield
+  for (var n = 0; n < shields.length; n++) {
+    shields[n].show();
+  }
+  
 
   //Beweegt ruimteschip
   ship.show();
@@ -64,12 +88,14 @@ function draw() {
 
   var edge = false;
 
+
   //Beweegt vijanden
+  let a = Math.floor(Math.random()*(enemies.length));
   for (var n = 0; n < enemies.length; n++) {
     enemies[n].show();
     enemies[n].move();
     if (cooldownCounter2 == 2) {
-        var bullet = new Bullet(enemies[1].x, enemies[1].y, 'enemy');
+        var bullet = new Bullet(enemies[a].x, enemies[a].y, 'enemy');
         bullets.push(bullet);
         cooldownCounter2 = 0;
     }
@@ -100,8 +126,27 @@ function draw() {
       }
   }
 
+  for (var n = 0; n < shields.length; n++) {
+      if (shields[n].toDelete) {
+        shields.splice(n, 1);
+      }
+  }
+
   //Onder tijd
   oldTime = currentTime;
+
+  //text
+  fill('white');
+  text("Levens: " + ship.lives,50, 30);
+
+  if (ship.lives == 0) {
+      window.location.href = "loss.html";
+      noLoop();
+  }
+  else if (enemies.length == 0) {
+      window.location.href = "win.html";
+      noLoop();
+  }
 
 }
 
