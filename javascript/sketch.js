@@ -14,6 +14,18 @@ var cooldownCounter2 =0;
 var yEnemy = 60;
 var xEnemy = 0;
 var aantalKogelsVijand = 2;
+var schietgeluid;
+var slider;
+var enemy_hit;
+var muziek;
+var volume;
+
+function preload() {
+    schietgeluid = loadSound("javascript/schietgeluid.mp3");
+    enemy_hit = loadSound("enemy_hit.mp3");
+    muziek = loadSound("muziek.mp3");
+}
+
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
@@ -30,6 +42,7 @@ function setup() {
     }
     
   }
+
   
   var shield = new Shield(0.35);
   shields.push(shield);
@@ -37,10 +50,23 @@ function setup() {
   shields.push(shield);
   shield = new Shield(0.65);
   shields.push(shield);
+
+  slider = createSlider(0, 1, 0.5, 0.01);
+  muziek.loop();
+
 }
 
 function draw() {
   background(51);
+
+
+
+  schietgeluid.setVolume(slider.value());
+  muziek.setVolume(slider.value());
+  slider.position(0.9 * width, 0.1 * height);
+  fill("white");
+    volume = text("volume", 0.9 * width, );
+
 
   //Cooldown
   var s = second();
@@ -75,6 +101,9 @@ function draw() {
     }
     
   }
+  
+  ship.show();
+  ship.move();
 
   //Shield
   for (var n = 0; n < shields.length; n++) {
@@ -123,6 +152,8 @@ function draw() {
   for (var n = 0; n < enemies.length; n++) {
       if (enemies[n].toDelete) {
         enemies.splice(n, 1);
+        enemy_hit.setVolume(slider.value());
+        enemy_hit.play();
       }
   }
 
@@ -163,6 +194,7 @@ function keyPressed() {
     var bullet = new Bullet(ship.x, ship.y, 'ship');
     bullets.push(bullet);
     cooldownCounter = 0;
+    schietgeluid.play();
   }
 
   if (keyCode === RIGHT_ARROW) {
