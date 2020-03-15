@@ -21,6 +21,12 @@ function Ship(lMarge, rMarge) {
       this.lives--;
   }
 
+  this.create = function(x, y) {
+    fill(255);
+    rectMode(CENTER);
+    rect(x, y, 60, 60);
+  }
+
   this.move = function(dir, lMarge, rMarge) {
     this.x = constrain(this.x, this.lMarge*width, this.rMarge*width);
     this.x += this.xdir*5;

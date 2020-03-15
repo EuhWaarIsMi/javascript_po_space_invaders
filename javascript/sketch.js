@@ -19,6 +19,7 @@ var slider;
 var enemy_hit;
 var muziek;
 var volume;
+var score = 0;
 
 function preload() {
     schietgeluid = loadSound("javascript/schietgeluid.mp3");
@@ -86,11 +87,13 @@ function draw() {
     if (bullets[n].hits(ship) && bullets[n].type == 'enemy') {
         bullets[n].destroy();
         ship.destroy();
+        score -= 50;
     }
     for (var m = 0; m < enemies.length; m++) {
       if (bullets[n].hits(enemies[m]) && bullets[n].type == 'ship') {
         enemies[m].destroy();
         bullets[n].destroy();
+        score += 10;
       } 
     }
     for (var m = 0; m < shields.length; m++) {
@@ -166,9 +169,16 @@ function draw() {
   //Onder tijd
   oldTime = currentTime;
 
-  //text
+  //toont aantal levens
+  for (var n = 0; n < ship.lives; n++) {
+    var y = height-50;
+    var x = n*80 + 80;
+    ship.create(x, y);
+  }
+
+  //toont score
   fill('white');
-  text("Levens: " + ship.lives,50, 30);
+  text("Score: " + score,50, 30);
 
   if (ship.lives == 0) {
       window.location.href = "loss.html";
