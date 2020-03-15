@@ -1,17 +1,30 @@
-function Bullet(x, y) {
+function Bullet(x, y, type) {
   this.x = x;
   this.y = y;
   this.r = 8;
   this.toDelete = false;
+  this.type = type;
 
   this.show = function() {
-    noStroke();
-    fill(150, 0, 255);
-    ellipse(this.x, this.y, this.r*2, this.r*2);
+    if (this.type == 'ship') {
+        push();
+        noStroke();
+        fill(150, 0, 255);
+        ellipse(this.x, this.y, this.r*2, this.r*2);
+        pop();
+    } 
+    else {
+        push();
+        noStroke();
+        fill('red');
+        ellipse(this.x, this.y, this.r*2, this.r*2);
+        pop();
+    }
+
   }
 
   this.destroy = function() {
-    this.toDelete = true;
+      this.toDelete = true;
   }
 
   this.hits = function(bullet) {
@@ -24,7 +37,12 @@ function Bullet(x, y) {
   }
 
   this.move = function() {
-    this.y = this.y - 5;
+    if (this.type == 'ship') {
+        this.y = this.y - 8;
+    } else if (this.type = 'enemy') {
+        this.y = this.y + 8;
+    }
+    
   }
 
 }
