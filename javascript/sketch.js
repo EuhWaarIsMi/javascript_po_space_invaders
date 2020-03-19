@@ -187,12 +187,16 @@ function draw() {
   fill('white');
   text("Score: " + score,50, 30);
 
-  if (ship.lives == 0 || enemies[enemies.length-1].y >= shieldHeight) {
+  if (ship.lives == 0 ) {
       window.location.href = "loss.html";
       noLoop();
   }
   else if (enemies.length == 0) {
       window.location.href = "win.html";
+      noLoop();
+  }
+  else if (enemies[enemies.length-1].y >= shieldHeight) {
+      window.location.href = "loss.html";
       noLoop();
   }
 
