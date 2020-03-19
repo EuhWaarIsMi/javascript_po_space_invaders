@@ -1,6 +1,6 @@
-function Shield(x) {
+function Shield(x, y) {
     this.x = x*width;
-    this.y = 0.75*height;
+    this.y = y;
     this.r = 60;
     this.toDelete = false;
 

@@ -20,6 +20,7 @@ var enemy_hit;
 var muziek;
 var volume;
 var score = 0;
+var shieldHeight = 0.75*innerHeight;
 
 function preload() {
     schietgeluid = loadSound("javascript/schietgeluid.mp3");
@@ -45,11 +46,11 @@ function setup() {
   }
 
   
-  var shield = new Shield(0.35);
+  var shield = new Shield(0.35, shieldHeight);
   shields.push(shield);
-  shield = new Shield(0.5);
+  shield = new Shield(0.5, shieldHeight);
   shields.push(shield);
-  shield = new Shield(0.65);
+  shield = new Shield(0.65, shieldHeight);
   shields.push(shield);
 
   slider = createSlider(0, 1, 0.5, 0.01);
@@ -100,6 +101,12 @@ function draw() {
         if (bullets[n].hits(shields[m])) {
             bullets[n].destroy();
             shields[m].destroy();
+        }
+    }
+    for (var m = 0; m < bullets.length; m++) {
+        if (bullets[n].hits(bullets[m]) && bullets[n] != bullets[m]) {
+            bullets[n].destroy();
+            bullets[m].destroy();
         }
     }
     
@@ -180,7 +187,7 @@ function draw() {
   fill('white');
   text("Score: " + score,50, 30);
 
-  if (ship.lives == 0) {
+  if (ship.lives == 0 || enemies[enemies.length-1].y >= shieldHeight) {
       window.location.href = "loss.html";
       noLoop();
   }
