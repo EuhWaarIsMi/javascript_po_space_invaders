@@ -102,6 +102,12 @@ function draw() {
             shields[m].destroy();
         }
     }
+    for (var m = 0; m < bullets.length; m++) {
+        if (bullets[n].hits(bullets[m]) && bullets[n] != bullets[m]) {
+            bullets[n].destroy();
+            bullets[m].destroy();
+        }
+    }
     
   }
   
