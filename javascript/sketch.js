@@ -19,6 +19,7 @@ var slider;
 var enemy_hit;
 var muziek;
 var volume;
+var victory;
 var score = 0;
 var shieldHeight = 0.75*innerHeight;
 
@@ -26,6 +27,7 @@ function preload() {
     schietgeluid = loadSound("javascript/schietgeluid.mp3");
     enemy_hit = loadSound("enemy_hit.mp3");
     muziek = loadSound("muziek.mp3");
+    victory = loadSound("win.mp3");
 }
 
 
@@ -188,14 +190,24 @@ function draw() {
   text("Score: " + score,50, 30);
 
   if (ship.lives == 0 ) {
+      muziek.stop();
+      gameover.setVolume(slider.value());
+        gameover.play();
       window.location.href = "loss.html";
       noLoop();
   }
   else if (enemies.length == 0) {
+       muziek.stop();
+      victory.setVolume(slider.value());
+        victory.play();
+
       window.location.href = "win.html";
       noLoop();
   }
   else if (enemies[enemies.length-1].y >= shieldHeight) {
+      muziek.stop();
+      gameover.setVolume(slider.value());
+        gameover.play();
       window.location.href = "loss.html";
       noLoop();
   }
