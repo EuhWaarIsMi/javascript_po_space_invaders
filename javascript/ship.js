@@ -1,16 +1,15 @@
-function Ship(lMarge, rMarge) {
+function Ship(lMarge, rMarge, animatie) {
   this.x = width/2;
-  this.y = height - 50;
+  this.y = height - 200;
   this.r = 30;
   this.lMarge = lMarge;
   this.rMarge = rMarge;
   this.xdir = 0;
-  this.lives = 3;      
+  this.lives = 3;
+  this.animatie = animatie;      
 
-  this.show = function() {
-    fill(255);
-    rectMode(CENTER);
-    rect(this.x, this.y, 60, 60);
+  this.show = function(nummer) {
+    image(this.animatie[nummer],this.x-75, this.y);
   }
 
   this.setDir = function(dir) {
@@ -22,9 +21,7 @@ function Ship(lMarge, rMarge) {
   }
 
   this.create = function(x, y) {
-    fill(255);
-    rectMode(CENTER);
-    rect(x, y, 60, 60);
+    image(this.animatie[0],x,y);
   }
 
   this.move = function(dir, lMarge, rMarge) {

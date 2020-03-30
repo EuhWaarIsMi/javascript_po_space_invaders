@@ -22,10 +22,13 @@ var volume;
 var victory;
 var gameover;
 var score = 0;
-var shieldHeight = 0.75*innerHeight;
+var shieldHeight = 0.7*innerHeight;
 var animatie = [];
 var aantalBeeldjes = 7;
 var nieuw_beeldje;
+var nummer = 1;
+var count = 4;
+var fps = 60;
 
 function preload() {
     schietgeluid = loadSound("javascript/schietgeluid.mp3");
@@ -34,9 +37,9 @@ function preload() {
     victory = loadSound("win.mp3");
     gameover = loadSound("gameover.mp3");
 
-    for (var n = 0; n < aantalBeeldjes; n++) {
-        nieuw_beeldje = loadImage("");
-        animatie.push(nieuwbeeldje);
+    for (var n = 1; n <= aantalBeeldjes; n++) {
+        nieuw_beeldje = loadImage("Player"+n+".png");
+        animatie.push(nieuw_beeldje);
     }
 
 }
@@ -44,7 +47,8 @@ function preload() {
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
-  ship = new Ship(lMarge, rMarge);
+  frameRate(fps);
+  ship = new Ship(lMarge, rMarge, animatie);
   for (var n = 0; n < aantalEnemiesPerRij*aantalRijen; n++) {
     if (n == 10 || n == 21 || n == 32 || n == 43) {    
         enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy);
@@ -73,8 +77,6 @@ function setup() {
 
 function draw() {
   background(51);
-
-
 
   schietgeluid.setVolume(slider.value());
   muziek.setVolume(slider.value());
@@ -124,9 +126,6 @@ function draw() {
     }
     
   }
-  
-  ship.show();
-  ship.move();
 
   //Shield
   for (var n = 0; n < shields.length; n++) {
@@ -135,7 +134,13 @@ function draw() {
   
 
   //Beweegt ruimteschip
-  ship.show();
+
+  if (frameCount % (fps / count) == 0) {
+    nummer++;
+    if (nummer == aantalBeeldjes) { nummer = 1; }
+  }
+
+  ship.show(nummer);
   ship.move();
 
   var edge = false;
@@ -191,8 +196,8 @@ function draw() {
 
   //toont aantal levens
   for (var n = 0; n < ship.lives; n++) {
-    var y = height-50;
-    var x = n*80 + 80;
+    var y = height-150;
+    var x = n*80 + 20;
     ship.create(x, y);
   }
 
