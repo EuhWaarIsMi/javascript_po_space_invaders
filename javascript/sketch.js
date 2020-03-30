@@ -23,7 +23,7 @@ var victory;
 var gameover;
 var score = 0;
 var shieldHeight = 0.7*innerHeight;
-var animatie = [];
+var ruimtewezen = [];
 var aantalBeeldjes = 7;
 var nieuw_beeldje;
 var nummer = 1;
@@ -39,7 +39,7 @@ function preload() {
 
     for (var n = 1; n <= aantalBeeldjes; n++) {
         nieuw_beeldje = loadImage("Player"+n+".png");
-        animatie.push(nieuw_beeldje);
+        ruimtewezen.push(nieuw_beeldje);
     }
 
 }
@@ -48,7 +48,7 @@ function preload() {
 function setup() {
   createCanvas(innerWidth, innerHeight);
   frameRate(fps);
-  ship = new Ship(lMarge, rMarge, animatie);
+  ship = new Ship(lMarge, rMarge, ruimtewezen);
   for (var n = 0; n < aantalEnemiesPerRij*aantalRijen; n++) {
     if (n == 10 || n == 21 || n == 32 || n == 43) {    
         enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy);
