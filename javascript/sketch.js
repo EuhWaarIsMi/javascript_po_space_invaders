@@ -20,14 +20,25 @@ var enemy_hit;
 var muziek;
 var volume;
 var victory;
+var gameover;
 var score = 0;
 var shieldHeight = 0.75*innerHeight;
+var animatie = [];
+var aantalBeeldjes = 7;
+var nieuw_beeldje;
 
 function preload() {
     schietgeluid = loadSound("javascript/schietgeluid.mp3");
     enemy_hit = loadSound("enemy_hit.mp3");
     muziek = loadSound("muziek.mp3");
     victory = loadSound("win.mp3");
+    gameover = loadSound("gameover.mp3");
+
+    for (var n = 0; n < aantalBeeldjes; n++) {
+        nieuw_beeldje = loadImage("");
+        animatie.push(nieuwbeeldje);
+    }
+
 }
 
 
