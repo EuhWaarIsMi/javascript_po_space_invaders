@@ -26,7 +26,7 @@ var enemies = [];
 var shields = [];
 var ruimtewezen = [];
 var ruimtemonster = [];
-var shield = [];
+var shieldA = [];
 
 var aantalBeeldjesRuimtewezen = 7;
 var aantalBeeldjesRuimtemonster = 9;
@@ -61,7 +61,7 @@ function preload() {
 
     for (var n = 1; n <= aantalBeeldjesShield; n++) {
         nieuw_beeldje = loadImage("Shield"+n+".png");
-        shield.push(nieuw_beeldje);
+        shieldA.push(nieuw_beeldje);
     }
 
 }
@@ -85,11 +85,11 @@ function setup() {
   }
 
   
-  var shield = new Shield(0.35, shieldHeight);
+  var shield = new Shield(0.35, shieldHeight, shieldA);
   shields.push(shield);
-  shield = new Shield(0.5, shieldHeight);
+  shield = new Shield(0.5, shieldHeight, shieldA);
   shields.push(shield);
-  shield = new Shield(0.65, shieldHeight);
+  shield = new Shield(0.65, shieldHeight, shieldA);
   shields.push(shield);
 
   slider = createSlider(0, 1, 0.5, 0.01);
@@ -102,6 +102,31 @@ function draw() {
         background(51);
         text('Het spel is gepauzeerd', innerWidth/2, innerHeight/2);
         textAlign(CENTER, CENTER);
+    }
+    else if (ship.lives == 0) {
+        background(51);
+        text('Verloren', innerWidth/2, innerHeight/2);
+        textAlign(CENTER, CENTER);
+        muziek.stop();
+        gameover.setVolume(slider.value());
+        gameover.play();
+    }
+    else if (enemies.length == 0) {
+        background(51);
+        text('Gewonnen', innerWidth/2, innerHeight/2);
+        textAlign(CENTER, CENTER);
+        muziek.stop();
+        victory.setVolume(slider.value());
+        victory.play();
+    }
+    else if (enemies[enemies.length-1].y >= shieldHeight) {
+        background(51);
+        text('Verloren', innerWidth/2, innerHeight/2);
+        textAlign(CENTER, CENTER);
+        muziek.stop();
+        gameover.setVolume(slider.value());
+        gameover.play();
+
     }
     else {
         background(51);
@@ -234,30 +259,6 @@ function draw() {
         //toont score
         fill('white');
         text("Score: " + score,50, 30);
-
-        if (ship.lives == 0 ) {
-            muziek.stop();
-            gameover.setVolume(slider.value());
-                gameover.play();
-            window.location.href = "loss.html";
-            noLoop();
-        }
-        else if (enemies.length == 0) {
-            muziek.stop();
-            victory.setVolume(slider.value());
-                victory.play();
-
-            window.location.href = "win.html";
-            noLoop();
-        }
-        else if (enemies[enemies.length-1].y >= shieldHeight) {
-            muziek.stop();
-            gameover.setVolume(slider.value());
-                gameover.play();
-            window.location.href = "loss.html";
-            noLoop();
-        }
-
     }  
 
     }
