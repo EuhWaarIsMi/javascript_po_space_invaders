@@ -1,9 +1,6 @@
 var ship;
 var aantalEnemiesPerRij = 11;
 var aantalRijen = 5;
-var bullets = [];
-var enemies = [];
-var shields = [];
 var lMarge = 0.25;
 var rMarge = 0.75;
 var currentTime;
@@ -23,10 +20,22 @@ var victory;
 var gameover;
 var score = 0;
 var shieldHeight = 0.7*innerHeight;
+
+var bullets = [];
+var enemies = [];
+var shields = [];
 var ruimtewezen = [];
-var aantalBeeldjes = 7;
+var ruimtemonster = [];
+var shield = [];
+
+var aantalBeeldjesRuimtewezen = 7;
+var aantalBeeldjesRuimtemonster = 9;
+var aantalBeeldjesShield = 6;
 var nieuw_beeldje;
-var nummer = 1;
+var nummerRuimtewezen = 1;
+var nummerRuimtemonster = 1;
+var nummerShield = 1;
+
 var count = 4;
 var fps = 60;
 var pauzescherm = false;
@@ -40,17 +49,17 @@ function preload() {
     gameover = loadSound("gameover.mp3");
     soundtrack = loadSound("soundtrack.wav");
 
-    for (var n = 1; n <= aantalBeeldjes; n++) {
+    for (var n = 1; n <= aantalBeeldjesRuimtewezen; n++) {
         nieuw_beeldje = loadImage("Player"+n+".png");
         ruimtewezen.push(nieuw_beeldje);
     }
 
-    for (var n = 1; n <= 9; n++) {
+    for (var n = 1; n <= aantalBeeldjesRuimtemonster; n++) {
         nieuw_beeldje = loadImage("Enemy0"+n+".png");
         ruimtemonster.push(nieuw_beeldje);
     }
 
-    for (var n = 1; n <= 6; n++) {
+    for (var n = 1; n <= aantalBeeldjesShield; n++) {
         nieuw_beeldje = loadImage("Shield"+n+".png");
         shield.push(nieuw_beeldje);
     }
@@ -64,13 +73,13 @@ function setup() {
   ship = new Ship(lMarge, rMarge, ruimtewezen);
   for (var n = 0; n < aantalEnemiesPerRij*aantalRijen; n++) {
     if (n == 10 || n == 21 || n == 32 || n == 43) {    
-        enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy);
+        enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy, ruimtemonster);
         xEnemy = 0;
-        yEnemy += 40;
+        yEnemy += 50;
     } 
     else {
-        enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy);
-        xEnemy += 1;
+        enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy, ruimtemonster);
+        xEnemy += 1.3;
     }
     
   }
@@ -155,11 +164,13 @@ function draw() {
         //Beweegt ruimteschip
 
         if (frameCount % (fps / count) == 0) {
-            nummer++;
-            if (nummer == aantalBeeldjes) { nummer = 1; }
+            nummerRuimtewezen++;
+            nummerRuimtemonster++
+            if (nummerRuimtewezen == aantalBeeldjesRuimtewezen) { nummerRuimtewezen = 1; }
+            if (nummerRuimtemonster == aantalBeeldjesRuimtemonster) { nummerRuimtemonster = 1; }
         }
 
-        ship.show(nummer);
+        ship.show(nummerRuimtewezen);
         ship.move();
 
         var edge = false;
@@ -168,7 +179,7 @@ function draw() {
         //Beweegt vijanden
         let a = Math.floor(Math.random()*(enemies.length));
         for (var n = 0; n < enemies.length; n++) {
-            enemies[n].show();
+            enemies[n].show(nummerRuimtemonster);
             enemies[n].move();
             if (cooldownCounter2 == 2) {
                 var bullet = new Bullet(enemies[a].x, enemies[a].y, 'enemy');

@@ -1,10 +1,11 @@
 
-function Enemy(x, y) {
+function Enemy(x, y, animatie) {
   this.x = x;
   this.y = y;
-  this.r = 15;
+  this.r = 20;
   this.toDelete = false;
   this.xdir = 1;
+  this.animatie = animatie;
 
   this.destroy = function() {
     this.toDelete = true;
@@ -19,10 +20,8 @@ function Enemy(x, y) {
     this.x = this.x + this.xdir;
   }
 
-  this.show = function() {
-    noStroke();
-    fill(255, 0, 200, 150);
-    rect(this.x, this.y, this.r*2, this.r*2);
+  this.show = function(nummer) {
+    image(this.animatie[nummer], this.x-48, this.y-48);
   }
 
 }

@@ -1,6 +1,6 @@
 function Ship(lMarge, rMarge, animatie) {
   this.x = width/2;
-  this.y = height - 200;
+  this.y = height - 150;
   this.r = 30;
   this.lMarge = lMarge;
   this.rMarge = rMarge;
@@ -9,7 +9,7 @@ function Ship(lMarge, rMarge, animatie) {
   this.animatie = animatie;      
 
   this.show = function(nummer) {
-    image(this.animatie[nummer],this.x-75, this.y);
+    image(this.animatie[nummer],this.x-75, this.y-75);
   }
 
   this.setDir = function(dir) {
