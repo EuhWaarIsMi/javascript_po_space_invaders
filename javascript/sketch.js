@@ -45,6 +45,16 @@ function preload() {
         ruimtewezen.push(nieuw_beeldje);
     }
 
+    for (var n = 1; n <= 9; n++) {
+        nieuw_beeldje = loadImage("Enemy0"+n+".png");
+        ruimtemonster.push(nieuw_beeldje);
+    }
+
+    for (var n = 1; n <= 6; n++) {
+        nieuw_beeldje = loadImage("Shield"+n+".png");
+        shield.push(nieuw_beeldje);
+    }
+
 }
 
 
@@ -85,184 +95,186 @@ function draw() {
         textAlign(CENTER, CENTER);
     }
     else {
-    background(51);
+        background(51);
 
-    schietgeluid.setVolume(slider.value());
-    soundtrack.setVolume(slider.value());
-    slider.position(0.9 * width, 0.1 * height);
-    fill("white");
-        volume = text("volume", 0.9 * width, );
+        schietgeluid.setVolume(slider.value());
+        soundtrack.setVolume(slider.value());
+        slider.position(0.9 * width, 0.1 * height);
+        fill("white");
+            volume = text("volume", 0.9 * width, );
 
 
-    //Cooldown
-    var s = second();
-    var m = minute();
-    var h = hour();
-    currentTime = s + 60*m + 3600*h;
-    timeMargin = currentTime - oldTime;
-    if (timeMargin == 1) {
-        cooldownCounter++;
-        cooldownCounter2++;
-    }
-
-    //Update kogels
-    for (var n = 0; n < bullets.length; n++) {
-        bullets[n].show();
-        bullets[n].move();
-        if (bullets[n].hits(ship) && bullets[n].type == 'enemy') {
-            bullets[n].destroy();
-            ship.destroy();
-            score -= 50;
+        //Cooldown
+        var s = second();
+        var m = minute();
+        var h = hour();
+        currentTime = s + 60*m + 3600*h;
+        timeMargin = currentTime - oldTime;
+        if (timeMargin == 1) {
+            cooldownCounter++;
+            cooldownCounter2++;
         }
-        for (var m = 0; m < enemies.length; m++) {
-        if (bullets[n].hits(enemies[m]) && bullets[n].type == 'ship') {
-            enemies[m].destroy();
-            bullets[n].destroy();
-            score += 10;
-        } 
-        }
-        for (var m = 0; m < shields.length; m++) {
-            if (bullets[n].hits(shields[m])) {
+
+        //Update kogels
+        for (var n = 0; n < bullets.length; n++) {
+            bullets[n].show();
+            bullets[n].move();
+            if (bullets[n].hits(ship) && bullets[n].type == 'enemy') {
                 bullets[n].destroy();
-                shields[m].destroy();
+                ship.destroy();
+                score -= 50;
             }
-        }
-        for (var m = 0; m < bullets.length; m++) {
-            if (bullets[n].hits(bullets[m]) && bullets[n] != bullets[m]) {
+            for (var m = 0; m < enemies.length; m++) {
+            if (bullets[n].hits(enemies[m]) && bullets[n].type == 'ship') {
+                enemies[m].destroy();
                 bullets[n].destroy();
-                bullets[m].destroy();
+                score += 10;
+            } 
             }
+            for (var m = 0; m < shields.length; m++) {
+                if (bullets[n].hits(shields[m])) {
+                    bullets[n].destroy();
+                    shields[m].destroy();
+                }
+            }
+            for (var m = 0; m < bullets.length; m++) {
+                if (bullets[n].hits(bullets[m]) && bullets[n] != bullets[m]) {
+                    bullets[n].destroy();
+                    bullets[m].destroy();
+                }
+            }
+            
+        }
+
+        //Shield
+        for (var n = 0; n < shields.length; n++) {
+            shields[n].show();
         }
         
-    }
 
-    //Shield
-    for (var n = 0; n < shields.length; n++) {
-        shields[n].show();
-    }
-    
+        //Beweegt ruimteschip
 
-    //Beweegt ruimteschip
-
-    if (frameCount % (fps / count) == 0) {
-        nummer++;
-        if (nummer == aantalBeeldjes) { nummer = 1; }
-    }
-
-    ship.show(nummer);
-    ship.move();
-
-    var edge = false;
-
-
-    //Beweegt vijanden
-    let a = Math.floor(Math.random()*(enemies.length));
-    for (var n = 0; n < enemies.length; n++) {
-        enemies[n].show();
-        enemies[n].move();
-        if (cooldownCounter2 == 2) {
-            var bullet = new Bullet(enemies[a].x, enemies[a].y, 'enemy');
-            bullets.push(bullet);
-            cooldownCounter2 = 0;
+        if (frameCount % (fps / count) == 0) {
+            nummer++;
+            if (nummer == aantalBeeldjes) { nummer = 1; }
         }
-    
-        if (enemies[n].x > rMarge*width || enemies[n].x < lMarge*width) {
-        edge = true;
-        }
-    }
 
-    //Zorgt ervoor dat de vijanden teruggaan als ze bij de rand komen
-    if (edge) {
+        ship.show(nummer);
+        ship.move();
+
+        var edge = false;
+
+
+        //Beweegt vijanden
+        let a = Math.floor(Math.random()*(enemies.length));
         for (var n = 0; n < enemies.length; n++) {
-        enemies[n].shiftDown();
+            enemies[n].show();
+            enemies[n].move();
+            if (cooldownCounter2 == 2) {
+                var bullet = new Bullet(enemies[a].x, enemies[a].y, 'enemy');
+                bullets.push(bullet);
+                cooldownCounter2 = 0;
+            }
+        
+            if (enemies[n].x > rMarge*width || enemies[n].x < lMarge*width) {
+            edge = true;
+            }
         }
-    }
 
-    //Delete kogels, als ze iets raken
-    for (var n = bullets.length-1; n >= 0; n--) {
-        if (bullets[n].toDelete) {
-        bullets.splice(n, 1);
+        //Zorgt ervoor dat de vijanden teruggaan als ze bij de rand komen
+        if (edge) {
+            for (var n = 0; n < enemies.length; n++) {
+            enemies[n].shiftDown();
+            }
         }
-    }
 
-    //Delete vijanden, als ze geraakt zijn
-    for (var n = 0; n < enemies.length; n++) {
-        if (enemies[n].toDelete) {
-            enemies.splice(n, 1);
-            enemy_hit.setVolume(slider.value());
-            enemy_hit.play();
+        //Delete kogels, als ze iets raken
+        for (var n = bullets.length-1; n >= 0; n--) {
+            if (bullets[n].toDelete) {
+            bullets.splice(n, 1);
+            }
         }
-    }
 
-    for (var n = 0; n < shields.length; n++) {
-        if (shields[n].toDelete) {
-            shields.splice(n, 1);
+        //Delete vijanden, als ze geraakt zijn
+        for (var n = 0; n < enemies.length; n++) {
+            if (enemies[n].toDelete) {
+                enemies.splice(n, 1);
+                enemy_hit.setVolume(slider.value());
+                enemy_hit.play();
+            }
         }
-    }
 
-    //Onder tijd
-    oldTime = currentTime;
+        for (var n = 0; n < shields.length; n++) {
+            if (shields[n].toDelete) {
+                shields.splice(n, 1);
+            }
+        }
 
-    //toont aantal levens
-    for (var n = 0; n < ship.lives; n++) {
-        var y = height-150;
-        var x = n*80 + 20;
-        ship.create(x, y);
-    }
+        //Onder tijd
+        oldTime = currentTime;
 
-    //toont score
-    fill('white');
-    text("Score: " + score,50, 30);
+        //toont aantal levens
+        for (var n = 0; n < ship.lives; n++) {
+            var y = height-150;
+            var x = n*80 + 20;
+            ship.create(x, y);
+        }
 
-    if (ship.lives == 0 ) {
-        muziek.stop();
-        gameover.setVolume(slider.value());
-            gameover.play();
-        window.location.href = "loss.html";
-        noLoop();
-    }
-    else if (enemies.length == 0) {
-        muziek.stop();
-        victory.setVolume(slider.value());
-            victory.play();
+        //toont score
+        fill('white');
+        text("Score: " + score,50, 30);
 
-        window.location.href = "win.html";
-        noLoop();
-    }
-    else if (enemies[enemies.length-1].y >= shieldHeight) {
-        muziek.stop();
-        gameover.setVolume(slider.value());
-            gameover.play();
-        window.location.href = "loss.html";
-        noLoop();
-    }
+        if (ship.lives == 0 ) {
+            muziek.stop();
+            gameover.setVolume(slider.value());
+                gameover.play();
+            window.location.href = "loss.html";
+            noLoop();
+        }
+        else if (enemies.length == 0) {
+            muziek.stop();
+            victory.setVolume(slider.value());
+                victory.play();
+
+            window.location.href = "win.html";
+            noLoop();
+        }
+        else if (enemies[enemies.length-1].y >= shieldHeight) {
+            muziek.stop();
+            gameover.setVolume(slider.value());
+                gameover.play();
+            window.location.href = "loss.html";
+            noLoop();
+        }
+
+    }  
 
     }
 
     //Zet het schip stil, als er geen toetsen ingedrukt worden, behalve de spatiebalk
     function keyReleased() {
-    if (key != ' ') {
-        ship.setDir(0);
-    }
+        if (key != ' ') {
+            ship.setDir(0);
+        }
     }
 
     //Zorgt voor de functionaliteit bij elke toets
     function keyPressed() {
-    if (key === ' ' && cooldownCounter >= 1) {
-        var bullet = new Bullet(ship.x, ship.y, 'ship');
-        bullets.push(bullet);
-        cooldownCounter = 0;
-        schietgeluid.play();
-    }
+        if (key === ' ' && cooldownCounter >= 1) {
+            var bullet = new Bullet(ship.x, ship.y, 'ship');
+            bullets.push(bullet);
+            cooldownCounter = 0;
+            schietgeluid.play();
+        }
 
-    if (keyCode === RIGHT_ARROW) {
-        ship.setDir(1);
-    } else if (keyCode === LEFT_ARROW) {
-        ship.setDir(-1);
-    }
-    }
+        if (keyCode === RIGHT_ARROW) {
+            ship.setDir(1);
+        } else if (keyCode === LEFT_ARROW) {
+            ship.setDir(-1);
+        }
 
-    if (keyCode === 27) {
-        pauzescherm = !pauzescherm;
+
+        if (keyCode === 27) {
+            pauzescherm = !pauzescherm;
+        }
     }
-}
