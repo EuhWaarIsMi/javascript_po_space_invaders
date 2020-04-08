@@ -27,14 +27,17 @@ var shields = [];
 var ruimtewezen = [];
 var ruimtemonster = [];
 var shieldA = [];
+var bubble = [];
 
 var aantalBeeldjesRuimtewezen = 7;
 var aantalBeeldjesRuimtemonster = 9;
 var aantalBeeldjesShield = 6;
+var aantalBeeldjesBubble = 5
 var nieuw_beeldje;
 var nummerRuimtewezen = 1;
 var nummerRuimtemonster = 1;
 var nummerShield = 1;
+var nummerBubble = 1;
 
 var count = 4;
 var fps = 60;
@@ -64,12 +67,18 @@ function preload() {
         shieldA.push(nieuw_beeldje);
     }
 
+    for (var n = 1; n <= aantalBeeldjesBubble; n++) {
+        nieuw_beeldje = loadImage("bubble/Bubble"+n+".png");
+        bubble.push(nieuw_beeldje);
+    }
+
 }
 
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
   frameRate(fps);
+  textFont("Press Start 2P");
   ship = new Ship(lMarge, rMarge, ruimtewezen);
   for (var n = 0; n < aantalEnemiesPerRij*aantalRijen; n++) {
     if (n == 10 || n == 21 || n == 32 || n == 43) {    
@@ -151,7 +160,7 @@ function draw() {
 
         //Update kogels
         for (var n = 0; n < bullets.length; n++) {
-            bullets[n].show();
+            bullets[n].show(nummerBubble);
             bullets[n].move();
             if (bullets[n].hits(ship) && bullets[n].type == 'enemy') {
                 bullets[n].destroy();
@@ -191,8 +200,10 @@ function draw() {
         if (frameCount % (fps / count) == 0) {
             nummerRuimtewezen++;
             nummerRuimtemonster++
+            nummerBubble++;
             if (nummerRuimtewezen == aantalBeeldjesRuimtewezen) { nummerRuimtewezen = 1; }
             if (nummerRuimtemonster == aantalBeeldjesRuimtemonster) { nummerRuimtemonster = 1; }
+            if (nummerBubble == aantalBeeldjesBubble) { nummerBubble = 1; }
         }
 
         ship.show(nummerRuimtewezen);
@@ -207,7 +218,7 @@ function draw() {
             enemies[n].show(nummerRuimtemonster);
             enemies[n].move();
             if (cooldownCounter2 == 2) {
-                var bullet = new Bullet(enemies[a].x, enemies[a].y, 'enemy');
+                var bullet = new Bullet(enemies[a].x, enemies[a].y, 'enemy', bubble);
                 bullets.push(bullet);
                 cooldownCounter2 = 0;
             }
@@ -273,7 +284,7 @@ function draw() {
     //Zorgt voor de functionaliteit bij elke toets
     function keyPressed() {
         if (key === ' ' && cooldownCounter >= 1) {
-            var bullet = new Bullet(ship.x, ship.y, 'ship');
+            var bullet = new Bullet(ship.x, ship.y, 'ship', bubble);
             bullets.push(bullet);
             cooldownCounter = 0;
             schietgeluid.play();

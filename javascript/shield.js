@@ -4,7 +4,7 @@ function Shield(x, y, animatie) {
     this.r = 60;
     this.toDelete = false;
     this.animatie = animatie;
-    this.nummer = 1
+    this.nummer = 1;
 
     this.show = function(nummer) {
         image(this.animatie[this.nummer], this.x, this.y);
