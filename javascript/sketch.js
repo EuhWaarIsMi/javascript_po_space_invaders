@@ -51,6 +51,7 @@ function preload() {
     victory = loadSound("music/win.mp3");
     gameover = loadSound("music/gameover.mp3");
     soundtrack = loadSound("music/soundtrack.wav");
+    font = loadFont("PressStart2P-Regular.ttf");
 
     for (var n = 1; n <= aantalBeeldjesRuimtewezen; n++) {
         nieuw_beeldje = loadImage("player/Player"+n+".png");
@@ -78,7 +79,7 @@ function preload() {
 function setup() {
   createCanvas(innerWidth, innerHeight);
   frameRate(fps);
-  textFont("Press Start 2P");
+  textFont(font);
   ship = new Ship(lMarge, rMarge, ruimtewezen);
   for (var n = 0; n < aantalEnemiesPerRij*aantalRijen; n++) {
     if (n == 10 || n == 21 || n == 32 || n == 43) {    
@@ -90,6 +91,10 @@ function setup() {
         enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy, ruimtemonster);
         xEnemy += 1.3;
     }
+
+    button = createButton('Pauze');
+    button.position(50, 35);
+    button.mousePressed(pauze);
     
   }
 
@@ -269,7 +274,9 @@ function draw() {
 
         //toont score
         fill('white');
-        text("Score: " + score,50, 30);
+        text("Score: " + score, 150, 50);
+
+
     }  
 
     }
@@ -301,3 +308,7 @@ function draw() {
             pauzescherm = !pauzescherm;
         }
     }
+
+function pauze() {
+    pauzescherm = !pauzescherm;
+}
