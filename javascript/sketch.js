@@ -42,25 +42,25 @@ var pauzescherm = false;
 var soundtrack;
 
 function preload() {
-    schietgeluid = loadSound("javascript/schietgeluid.mp3");
-    enemy_hit = loadSound("enemy_hit.mp3");
-    muziek = loadSound("muziek.mp3");
-    victory = loadSound("win.mp3");
-    gameover = loadSound("gameover.mp3");
-    soundtrack = loadSound("soundtrack.wav");
+    schietgeluid = loadSound("music/schietgeluid.mp3");
+    enemy_hit = loadSound("music/enemy_hit.mp3");
+    muziek = loadSound("music/muziek.mp3");
+    victory = loadSound("music/win.mp3");
+    gameover = loadSound("music/gameover.mp3");
+    soundtrack = loadSound("music/soundtrack.wav");
 
     for (var n = 1; n <= aantalBeeldjesRuimtewezen; n++) {
-        nieuw_beeldje = loadImage("Player"+n+".png");
+        nieuw_beeldje = loadImage("player/Player"+n+".png");
         ruimtewezen.push(nieuw_beeldje);
     }
 
     for (var n = 1; n <= aantalBeeldjesRuimtemonster; n++) {
-        nieuw_beeldje = loadImage("Enemy0"+n+".png");
+        nieuw_beeldje = loadImage("enemy/Enemy0"+n+".png");
         ruimtemonster.push(nieuw_beeldje);
     }
 
     for (var n = 1; n <= aantalBeeldjesShield; n++) {
-        nieuw_beeldje = loadImage("Shield"+n+".png");
+        nieuw_beeldje = loadImage("shield/Shield"+n+".png");
         shieldA.push(nieuw_beeldje);
     }
 
