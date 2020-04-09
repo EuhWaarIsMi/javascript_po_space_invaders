@@ -45,6 +45,7 @@ var count = 4;
 var fps = 60;
 var pauzescherm = false;
 var soundtrack;
+var eindespel = false;
 
 function preload() {
     schietgeluid = loadSound("music/schietgeluid.mp3");
@@ -123,39 +124,49 @@ function draw() {
         soundtrack.setVolume(slider.value());
     }
     else if (ship.lives == 0) {
+        if (!eindespel) {
         background(51);
         image(achtergrond, 0,0, 2*innerHeight, innerWidth);
         text('Verloren', innerWidth/2, innerHeight/2 - 10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
-        muziek.stop();
+        soundtrack.stop();
         verloren.setVolume(slider.value());
         verloren.play();
         button = createImg("Play-3.png");
         button.position(innerWidth/2-22.5, innerHeight/2+40);
+        eindespel = true;
+        }
         button.mousePressed(play);
     }
     else if (enemies.length == 0) {
+        if (!eindespel) {
         background(51);
         image(achtergrond, 0,0, 2*innerHeight, innerWidth);
         text('Gewonnen', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
-        muziek.stop();
+        soundtrack.stop();
         victory.setVolume(slider.value());
         victory.play();
         button = createImg("Play-3.png");
         button.position(innerWidth/2-22.5, innerHeight/2+30);
+        eindespel = true;
+        }
         button.mousePressed(play);
     }
     else if (enemies[enemies.length-1].y >= shieldHeight) {
-        background(51);
-        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
-        text('Verloren', innerWidth/2, innerHeight/2-10);
-        text('Score: ' + score, innerWidth/2, innerHeight/2+10);
-        muziek.stop();
-        verloren.setVolume(slider.value());
-        verloren.play();
-        button = createImg("Play-3.png" );
-        button.position(innerWidth/2-22.5, innerHeight/2+30);
+        if (!eindespel)
+        {
+            background(51);
+            image(achtergrond, 0,0, 2*innerHeight, innerWidth);
+            text('Verloren', innerWidth/2, innerHeight/2-10);
+            text('Score: ' + score, innerWidth/2, innerHeight/2+10);
+            soundtrack.stop();
+            verloren.setVolume(slider.value());
+            verloren.play();
+            button = createImg("Play-3.png" );
+            button.position(innerWidth/2-22.5, innerHeight/2+30);
+            eindespel = true;
+        }
         button.mousePressed(play);
 
     }
