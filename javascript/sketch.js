@@ -94,7 +94,7 @@ function setup() {
         xEnemy += 1.3;
     }
 
-    button = createImg("Pauze.png");
+    button = createImg("Pauze-2.png");
     button.position(50, 35);
     button.mousePressed(pauze);
     
@@ -276,7 +276,7 @@ function draw() {
 
         //toont score
         fill('white');
-        text("Score: " + score, 200, 50);
+        text("Score: " + score, 150, 50);
 
 
     }  

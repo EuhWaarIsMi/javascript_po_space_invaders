@@ -7,7 +7,7 @@ function Shield(x, y, animatie) {
     this.nummer = 1;
 
     this.show = function(nummer) {
-        image(this.animatie[this.nummer], this.x, this.y);
+        image(this.animatie[this.nummer],this.x-(this.animatie[this.nummer].width/2), this.y-(this.animatie[this.nummer].height/2));
     }
 
     this.destroy = function() {
