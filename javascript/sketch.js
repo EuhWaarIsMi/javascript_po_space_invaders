@@ -29,6 +29,7 @@ var ruimtewezen = [];
 var ruimtemonster = [];
 var shieldA = [];
 var bubble = [];
+var achtergrond;
 
 var aantalBeeldjesRuimtewezen = 7;
 var aantalBeeldjesRuimtemonster = 9;
@@ -53,6 +54,7 @@ function preload() {
     gameover = loadSound("music/gameover.mp3");
     soundtrack = loadSound("music/soundtrack.wav");
     font = loadFont("PressStart2P-Regular.ttf");
+    achtergrond = loadImage("achtergrond/Bg00.png");
 
     for (var n = 1; n <= aantalBeeldjesRuimtewezen; n++) {
         nieuw_beeldje = loadImage("player/Player"+n+".png");
@@ -116,10 +118,12 @@ function setup() {
 function draw() {
     if(pauzescherm) {
         background(51);
+        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
         text('Het spel is gepauzeerd', innerWidth/2, innerHeight/2);
     }
     else if (ship.lives == 0) {
         background(51);
+        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
         text('Verloren', innerWidth/2, innerHeight/2 - 10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
@@ -131,6 +135,7 @@ function draw() {
     }
     else if (enemies.length == 0) {
         background(51);
+        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
         text('Gewonnen', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
@@ -142,6 +147,7 @@ function draw() {
     }
     else if (enemies[enemies.length-1].y >= shieldHeight) {
         background(51);
+        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
         text('Verloren', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
@@ -154,6 +160,7 @@ function draw() {
     }
     else {
         background(51);
+        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
 
         schietgeluid.setVolume(slider.value());
         soundtrack.setVolume(slider.value());
