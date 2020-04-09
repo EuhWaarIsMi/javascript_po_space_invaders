@@ -17,7 +17,7 @@ var enemy_hit;
 var muziek;
 var volume;
 var victory;
-var verloren;
+var gameover;
 var score = 0;
 var shieldHeight = 0.7*innerHeight;
 var pauzeIm;
@@ -54,7 +54,7 @@ function preload() {
     enemy_hit = loadSound("music/enemy_hit.mp3");
     muziek = loadSound("music/muziek.mp3");
     victory = loadSound("music/win.mp3");
-    verloren = loadSound("music/verloren.mp3");
+    gameover = loadSound("music/verloren.mp3");
     soundtrack = loadSound("music/soundtrack.wav");
     font = loadFont("PressStart2P-Regular.ttf");
 
@@ -120,10 +120,12 @@ function setup() {
 
 function draw() {
     if(pauzescherm) {
+
         background(achtergrond[nummerAchtergrond]);
         nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
         text('Het spel is gepauzeerd', innerWidth/2, innerHeight/2);
         soundtrack.setVolume(slider.value());
+
     }
     else if (ship.lives == 0) {
         background(achtergrond[nummerAchtergrond]);
@@ -133,7 +135,9 @@ function draw() {
         muziek.stop();
         gameover.setVolume(slider.value());
         gameover.play();
+        
         playButton();
+
     }
     else if (enemies.length == 0) {
         background(achtergrond[nummerAchtergrond]);
@@ -143,6 +147,7 @@ function draw() {
         muziek.stop();
         victory.setVolume(slider.value());
         victory.play();
+
         playButton();
     }
     else if (enemies[enemies.length-1].y >= shieldHeight) {
@@ -152,9 +157,8 @@ function draw() {
         muziek.stop();
         gameover.setVolume(slider.value());
         gameover.play();
+        
         playButton();
-
-
     }
     else {
         background(achtergrond[nummerAchtergrond]);
