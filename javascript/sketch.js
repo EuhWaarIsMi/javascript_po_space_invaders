@@ -131,18 +131,9 @@ function draw() {
         text('Verloren', innerWidth/2, innerHeight/2 - 10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
-<<<<<<< HEAD
         gameover.setVolume(slider.value());
         gameover.play();
         playButton();
-
-=======
-        verloren.setVolume(slider.value());
-        verloren.play();
-        button = createImg("Play-3.png");
-        button.position(innerWidth/2-22.5, innerHeight/2+40);
-        button.mousePressed(play);
->>>>>>> 2bd47cf588d3764672bfcde3581ca97981c03f1d
     }
     else if (enemies.length == 0) {
         background(achtergrond[nummerAchtergrond]);
@@ -159,17 +150,10 @@ function draw() {
         text('Verloren', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
-<<<<<<< HEAD
         gameover.setVolume(slider.value());
         gameover.play();
         playButton();
-=======
-        verloren.setVolume(slider.value());
-        verloren.play();
-        button = createImg("Play-3.png" );
-        button.position(innerWidth/2-22.5, innerHeight/2+30);
-        button.mousePressed(play);
->>>>>>> 2bd47cf588d3764672bfcde3581ca97981c03f1d
+
 
     }
     else {
