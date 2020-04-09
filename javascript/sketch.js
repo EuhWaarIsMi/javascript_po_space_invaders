@@ -17,7 +17,7 @@ var enemy_hit;
 var muziek;
 var volume;
 var victory;
-var gameover;
+var verloren;
 var score = 0;
 var shieldHeight = 0.7*innerHeight;
 var pauzeIm;
@@ -48,13 +48,14 @@ var count2 = 6;
 var fps = 60;
 var pauzescherm = false;
 var soundtrack;
+var eindespel = false;
 
 function preload() {
     schietgeluid = loadSound("music/schietgeluid.mp3");
     enemy_hit = loadSound("music/enemy_hit.mp3");
     muziek = loadSound("music/muziek.mp3");
     victory = loadSound("music/win.mp3");
-    gameover = loadSound("music/verloren.mp3");
+    verloren = loadSound("music/verloren.mp3");
     soundtrack = loadSound("music/soundtrack.wav");
     font = loadFont("PressStart2P-Regular.ttf");
 
@@ -103,7 +104,7 @@ function setup() {
         xEnemy += 1.3;
     }
 
-    button = createImg("Pauze-2.png");
+    button = createImg("overig/Pauze.png");
     button.position(50, 35);
     button.mousePressed(pauze);
     
@@ -129,36 +130,46 @@ function draw() {
     }
     else if (ship.lives == 0) {
         background(achtergrond[nummerAchtergrond]);
-        nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
+        if (!eindespel) {
+            muziek.stop();
+            soundtrack.stop();
+            verloren.setVolume(slider.value());
+            verloren.play();
+            playButton();
+            eindespel = true;    
+        }
         text('Verloren', innerWidth/2, innerHeight/2 - 10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
-        muziek.stop();
-        gameover.setVolume(slider.value());
-        gameover.play();
+        nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
         
-        playButton();
+
 
     }
     else if (enemies.length == 0) {
         background(achtergrond[nummerAchtergrond]);
+        if (!eindespel) {
+            soundtrack.stop();
+            victory.setVolume(slider.value());
+            victory.play();
+            playButton();
+            eindespel = true;
+        }
         nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
         text('Gewonnen', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
-        muziek.stop();
-        victory.setVolume(slider.value());
-        victory.play();
-
-        playButton();
     }
     else if (enemies[enemies.length-1].y >= shieldHeight) {
         background(achtergrond[nummerAchtergrond]);
+        if (!eindespel) {
+            muziek.stop();
+            verloren.setVolume(slider.value());
+            verloren.play();
+            playButton();
+            eindespel = true;
+        }
+        nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
         text('Verloren', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
-        muziek.stop();
-        gameover.setVolume(slider.value());
-        gameover.play();
-        
-        playButton();
     }
     else {
         background(achtergrond[nummerAchtergrond]);
@@ -335,7 +346,7 @@ function updateNummer(countX, nummer, aantalBeeldjes) {
 }
 
 function playButton() {
-    button = createImg("Play-3.png");
+    button = createImg("overig/Play.png");
     button.position(innerWidth/2-22.5, innerHeight/2+30);
     button.mousePressed(play);
 }
