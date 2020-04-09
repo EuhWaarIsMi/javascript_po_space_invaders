@@ -57,7 +57,7 @@ function preload() {
     victory = loadSound("music/win.mp3");
     verloren = loadSound("music/verloren.mp3");
     soundtrack = loadSound("music/soundtrack.wav");
-    font = loadFont("PressStart2P-Regular.ttf");
+    font = loadFont("overig/PressStart2P-Regular.ttf");
 
     for (var n = 1; n <= aantalBeeldjesRuimtewezen; n++) {
         nieuw_beeldje = loadImage("player/Player"+n+".png");
