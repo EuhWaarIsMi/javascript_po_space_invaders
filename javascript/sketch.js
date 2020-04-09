@@ -20,6 +20,7 @@ var victory;
 var gameover;
 var score = 0;
 var shieldHeight = 0.7*innerHeight;
+var pauzeIm;
 
 var bullets = [];
 var enemies = [];
@@ -80,6 +81,7 @@ function setup() {
   createCanvas(innerWidth, innerHeight);
   frameRate(fps);
   textFont(font);
+  textAlign(CENTER, CENTER);
   ship = new Ship(lMarge, rMarge, ruimtewezen);
   for (var n = 0; n < aantalEnemiesPerRij*aantalRijen; n++) {
     if (n == 10 || n == 21 || n == 32 || n == 43) {    
@@ -92,7 +94,7 @@ function setup() {
         xEnemy += 1.3;
     }
 
-    button = createButton('Pauze');
+    button = createImg("Pauze.png");
     button.position(50, 35);
     button.mousePressed(pauze);
     
@@ -274,7 +276,7 @@ function draw() {
 
         //toont score
         fill('white');
-        text("Score: " + score, 150, 50);
+        text("Score: " + score, 200, 50);
 
 
     }  
