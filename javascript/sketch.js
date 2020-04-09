@@ -29,19 +29,22 @@ var ruimtewezen = [];
 var ruimtemonster = [];
 var shieldA = [];
 var bubble = [];
-var achtergrond;
+var achtergrond = [];
 
 var aantalBeeldjesRuimtewezen = 7;
 var aantalBeeldjesRuimtemonster = 9;
 var aantalBeeldjesShield = 6;
-var aantalBeeldjesBubble = 5
+var aantalBeeldjesBubble = 5;
+var aantalBeeldjesAchtergrond = 23;
 var nieuw_beeldje;
 var nummerRuimtewezen = 1;
 var nummerRuimtemonster = 1;
 var nummerShield = 1;
 var nummerBubble = 1;
+var nummerAchtergrond = 1;
 
 var count = 4;
+var count2 = 6;
 var fps = 60;
 var pauzescherm = false;
 var soundtrack;
@@ -54,7 +57,6 @@ function preload() {
     gameover = loadSound("music/gameover.mp3");
     soundtrack = loadSound("music/soundtrack.wav");
     font = loadFont("PressStart2P-Regular.ttf");
-    achtergrond = loadImage("achtergrond/Bg00.png");
 
     for (var n = 1; n <= aantalBeeldjesRuimtewezen; n++) {
         nieuw_beeldje = loadImage("player/Player"+n+".png");
@@ -74,6 +76,11 @@ function preload() {
     for (var n = 1; n <= aantalBeeldjesBubble; n++) {
         nieuw_beeldje = loadImage("bubble/Bubble"+n+".png");
         bubble.push(nieuw_beeldje);
+    }
+
+    for (var n = 1; n <= aantalBeeldjesAchtergrond; n++) {
+        nieuw_beeldje = loadImage("achtergrond/Bg"+n+".png");
+        achtergrond.push(nieuw_beeldje);
     }
 
 }
@@ -101,14 +108,10 @@ function setup() {
     button.mousePressed(pauze);
     
   }
-
-  
-  var shield = new Shield(0.35, shieldHeight, shieldA);
-  shields.push(shield);
-  shield = new Shield(0.5, shieldHeight, shieldA);
-  shields.push(shield);
-  shield = new Shield(0.65, shieldHeight, shieldA);
-  shields.push(shield);
+  for (var n = 0; n < 3; n++) {
+    var shield = new Shield(0.35+n*0.15, shieldHeight, shieldA);
+    shields.push(shield);
+  }
 
   slider = createSlider(0, 1, 0.5, 0.01);
   soundtrack.loop();
@@ -117,50 +120,43 @@ function setup() {
 
 function draw() {
     if(pauzescherm) {
-        background(51);
-        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
+        background(achtergrond[nummerAchtergrond]);
+        nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
         text('Het spel is gepauzeerd', innerWidth/2, innerHeight/2);
     }
     else if (ship.lives == 0) {
-        background(51);
-        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
+        background(achtergrond[nummerAchtergrond]);
+        nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
         text('Verloren', innerWidth/2, innerHeight/2 - 10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
         gameover.setVolume(slider.value());
         gameover.play();
-        button = createImg("Play-3.png");
-        button.position(innerWidth/2-22.5, innerHeight/2+40);
-        button.mousePressed(play);
+        playButton();
+
     }
     else if (enemies.length == 0) {
-        background(51);
-        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
+        background(achtergrond[nummerAchtergrond]);
+        nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
         text('Gewonnen', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
         victory.setVolume(slider.value());
         victory.play();
-        button = createImg("Play-3.png");
-        button.position(innerWidth/2-22.5, innerHeight/2+30);
-        button.mousePressed(play);
+        playButton();
     }
     else if (enemies[enemies.length-1].y >= shieldHeight) {
-        background(51);
-        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
+        background(achtergrond[nummerAchtergrond]);
         text('Verloren', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
         gameover.setVolume(slider.value());
         gameover.play();
-        button = createImg("Play-3.png");
-        button.position(innerWidth/2-22.5, innerHeight/2+30);
-        button.mousePressed(play);
+        playButton();
 
     }
     else {
-        background(51);
-        image(achtergrond, 0,0, 2*innerHeight, innerWidth);
+        background(achtergrond[nummerAchtergrond]);
 
         schietgeluid.setVolume(slider.value());
         soundtrack.setVolume(slider.value());
@@ -216,23 +212,15 @@ function draw() {
             shields[n].show();
         }
         
-
-        //Beweegt ruimteschip
-
-        if (frameCount % (fps / count) == 0) {
-            nummerRuimtewezen++;
-            nummerRuimtemonster++
-            nummerBubble++;
-            if (nummerRuimtewezen == aantalBeeldjesRuimtewezen) { nummerRuimtewezen = 1; }
-            if (nummerRuimtemonster == aantalBeeldjesRuimtemonster) { nummerRuimtemonster = 1; }
-            if (nummerBubble == aantalBeeldjesBubble) { nummerBubble = 1; }
-        }
-
+        nummerBubble = updateNummer(count, nummerBubble, aantalBeeldjesBubble);
+        nummerRuimtemonster = updateNummer(count, nummerRuimtemonster, aantalBeeldjesRuimtemonster);
+        nummerRuimtewezen = updateNummer(count, nummerRuimtewezen, aantalBeeldjesRuimtewezen);
+        nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
+   
         ship.show(nummerRuimtewezen);
         ship.move();
 
         var edge = false;
-
 
         //Beweegt vijanden
         let a = Math.floor(Math.random()*(enemies.length));
@@ -293,7 +281,6 @@ function draw() {
         fill('white');
         text("Score: " + score, 150, 50);
 
-
     }  
 
     }
@@ -332,4 +319,18 @@ function pauze() {
 
 function play() { 
     window.location.href = "index.html";
+}
+
+function updateNummer(countX, nummer, aantalBeeldjes) {
+    if (frameCount % (fps / countX) == 0) {
+        nummer++;
+        if (nummer == aantalBeeldjes) { nummer = 1; }
+    }
+    return nummer;
+}
+
+function playButton() {
+    button = createImg("Play-3.png");
+    button.position(innerWidth/2-22.5, innerHeight/2+30);
+    button.mousePressed(play);
 }
