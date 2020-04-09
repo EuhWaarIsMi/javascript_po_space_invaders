@@ -117,31 +117,39 @@ function draw() {
     if(pauzescherm) {
         background(51);
         text('Het spel is gepauzeerd', innerWidth/2, innerHeight/2);
-        textAlign(CENTER, CENTER);
     }
     else if (ship.lives == 0) {
         background(51);
-        text('Verloren', innerWidth/2, innerHeight/2);
-        textAlign(CENTER, CENTER);
+        text('Verloren', innerWidth/2, innerHeight/2 - 10);
+        text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
         gameover.setVolume(slider.value());
         gameover.play();
+        button = createImg("Play-3.png");
+        button.position(innerWidth/2-22.5, innerHeight/2+40);
+        button.mousePressed(play);
     }
     else if (enemies.length == 0) {
         background(51);
-        text('Gewonnen', innerWidth/2, innerHeight/2);
-        textAlign(CENTER, CENTER);
+        text('Gewonnen', innerWidth/2, innerHeight/2-10);
+        text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
         victory.setVolume(slider.value());
         victory.play();
+        button = createImg("Play-3.png");
+        button.position(innerWidth/2-22.5, innerHeight/2+30);
+        button.mousePressed(play);
     }
     else if (enemies[enemies.length-1].y >= shieldHeight) {
         background(51);
-        text('Verloren', innerWidth/2, innerHeight/2);
-        textAlign(CENTER, CENTER);
+        text('Verloren', innerWidth/2, innerHeight/2-10);
+        text('Score: ' + score, innerWidth/2, innerHeight/2+10);
         muziek.stop();
         gameover.setVolume(slider.value());
         gameover.play();
+        button = createImg("Play-3.png");
+        button.position(innerWidth/2-22.5, innerHeight/2+30);
+        button.mousePressed(play);
 
     }
     else {
@@ -313,4 +321,8 @@ function draw() {
 
 function pauze() {
     pauzescherm = !pauzescherm;
+}
+
+function play() { 
+    window.location.href = "index.html";
 }
