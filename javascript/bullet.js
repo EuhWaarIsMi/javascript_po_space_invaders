@@ -1,26 +1,13 @@
-function Bullet(x, y, type) {
+function Bullet(x, y, type, animatie) {
   this.x = x;
   this.y = y;
   this.r = 8;
   this.toDelete = false;
   this.type = type;
+  this.animatie = animatie;
 
-  this.show = function() {
-    if (this.type == 'ship') {
-        push();
-        noStroke();
-        fill(150, 0, 255);
-        ellipse(this.x, this.y, this.r*2, this.r*2);
-        pop();
-    } 
-    else {
-        push();
-        noStroke();
-        fill('red');
-        ellipse(this.x, this.y, this.r*2, this.r*2);
-        pop();
-    }
-
+  this.show = function(nummer) {
+    image(this.animatie[nummer], this.x-(this.animatie[nummer].width/2), this.y-(this.animatie[nummer].height/2));
   }
 
   this.destroy = function() {
