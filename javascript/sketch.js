@@ -131,16 +131,19 @@ function setup() {
   //Maakt een slider waarmee het volume van de geluiden kan worden aangepast. De minimale waarde is 0,00, de maximale waarde is 0,50.
   //De slider staat standaard ingesteld op 0,25 en kan met stappen van 0,01 worden veranderd
   slider = createSlider(0, 0.5, 0.25, 0.01);
+  //Loopt de muziek, zodat dit niet na één keer afspelen stopt
   soundtrack.loop();
 
 }
 
 function draw() {
+    //Als er sprake is van een pauzescherm, dan wordt het volgende afgebeeld
     if(pauzescherm) {
 
         background(achtergrond[nummerAchtergrond]);
         nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
         text('Het spel is gepauzeerd', innerWidth/2, innerHeight/2);
+        //Het volume van het geluid wordt ingesteld met de waarde van de slider
         soundtrack.setVolume(slider.value());
 
     }
@@ -149,7 +152,6 @@ function draw() {
         background(achtergrond[nummerAchtergrond]);
         if (!eindespel) {
             soundtrack.stop();
-            //Het volume van het geluid wordt ingesteld met de waarde van de slider
             verloren.setVolume(slider.value());
             verloren.play();
             playButton();
