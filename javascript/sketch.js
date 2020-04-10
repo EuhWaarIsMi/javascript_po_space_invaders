@@ -1,3 +1,4 @@
+//Alle algemene variabelen die gebruikt worden voor het spel.
 var ship;
 var aantalEnemiesPerRij = 11;
 var aantalRijen = 5;
@@ -120,7 +121,7 @@ function setup() {
         enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy, ruimtemonster);
         xEnemy += 1.3;
     }
-
+    //Maakt de pauzeerknop aan.
     button = createImg("overig/Pauze.png");
     button.position(50, 35);
     button.mousePressed(pauze);
@@ -142,7 +143,7 @@ function setup() {
 function draw() {
     //Als er sprake is van een pauzescherm, dan wordt het volgende afgebeeld
     if(pauzescherm) {
-
+        //Zorgt voor de achtergornd en de tekst dat het spel gepauzeert wordt.
         background(achtergrond[nummerAchtergrond]);
         nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
         text('Het spel is gepauzeerd', innerWidth/2, innerHeight/2);
@@ -167,6 +168,7 @@ function draw() {
 
 
     }
+    //Als alle enemies dood zijn, heeft de speler gewonnen en komt er een overwinningsgeluidje.
     else if (enemies.length == 0) {
         background(achtergrond[nummerAchtergrond]);
         if (!eindespel) {
@@ -180,6 +182,7 @@ function draw() {
         text('Gewonnen', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
     }
+    //Als de enemies te laag komen, verliest de speler.
     else if (enemies[enemies.length-1].y >= shieldHeight) {
         background(achtergrond[nummerAchtergrond]);
         if (!eindespel) {
@@ -193,6 +196,7 @@ function draw() {
         text('Verloren', innerWidth/2, innerHeight/2-10);
         text('Score: ' + score, innerWidth/2, innerHeight/2+10);
     }
+    //De else voert het spel uit.
     else {
         background(achtergrond[nummerAchtergrond]);
 
@@ -214,6 +218,7 @@ function draw() {
         currentTime = s + 60*m + 3600*h;
         //Het tijdsverschil wordt berekend en meegegeven aan een variabele.
         timeMargin = currentTime - oldTime;
+        //Zorgt ervoor dat de cooldown variabele verhoogt wordt. 
         if (timeMargin == 1) {
             cooldownCounter++;
             cooldownCounter2++;
@@ -223,11 +228,13 @@ function draw() {
         for (var n = 0; n < bullets.length; n++) {
             bullets[n].show(nummerBubble);
             bullets[n].move();
+            //Zorgt ervoor dat de speler levens verliest als die geraakt wordt.
             if (bullets[n].hits(ship) && bullets[n].type == 'enemy') {
                 bullets[n].destroy();
                 ship.destroy();
                 score -= 50;
             }
+            //Zorgt ervoor dat de enemies verwijdert worden als ze geraakt worden.
             for (var m = 0; m < enemies.length; m++) {
             if (bullets[n].hits(enemies[m]) && bullets[n].type == 'ship') {
                 enemies[m].destroy();
@@ -235,12 +242,15 @@ function draw() {
                 score += 10;
             } 
             }
+
+            //Zorgt voor de gevolgen dat de shields geraakt worden.
             for (var m = 0; m < shields.length; m++) {
                 if (bullets[n].hits(shields[m])) {
                     bullets[n].destroy();
                     shields[m].destroy();
                 }
             }
+            //Verwijdert de kogels als ze elkaar raken.
             for (var m = 0; m < bullets.length; m++) {
                 if (bullets[n].hits(bullets[m]) && bullets[n] != bullets[m]) {
                     bullets[n].destroy();
@@ -250,32 +260,35 @@ function draw() {
             
         }
 
-        //Shield
+        //Creëert de schilden. 
         for (var n = 0; n < shields.length; n++) {
             shields[n].show();
         }
         
+        //Zorgt voor een update van alle indexnummers voor de animaties.
         nummerBubble = updateNummer(count, nummerBubble, aantalBeeldjesBubble);
         nummerRuimtemonster = updateNummer(count, nummerRuimtemonster, aantalBeeldjesRuimtemonster);
         nummerRuimtewezen = updateNummer(count, nummerRuimtewezen, aantalBeeldjesRuimtewezen);
         nummerAchtergrond = updateNummer(count2, nummerAchtergrond, aantalBeeldjesAchtergrond);
    
+        //Beweegt het schip.
         ship.show(nummerRuimtewezen);
         ship.move();
 
         var edge = false;
 
         //Beweegt vijanden
-        let a = Math.floor(Math.random()*(enemies.length));
+        let a = Math.floor(Math.random()*(enemies.length)); //Zorgt voor een random waarde.
         for (var n = 0; n < enemies.length; n++) {
             enemies[n].show(nummerRuimtemonster);
             enemies[n].move();
+            //Zorgt ervoor dat een vijand een kogel afschiet, na een bepaalde periode.
             if (cooldownCounter2 == 2) {
                 var bullet = new Bullet(enemies[a].x, enemies[a].y, 'enemy', bubble);
                 bullets.push(bullet);
                 cooldownCounter2 = 0;
             }
-        
+            //Zorgt ervoor dat als de vijanden bij de rand komen, dat ze dan omlaag gaan.
             if (enemies[n].x > rMarge*width || enemies[n].x < lMarge*width) {
             edge = true;
             }
@@ -303,14 +316,14 @@ function draw() {
                 enemy_hit.play();
             }
         }
-
+        //Delete alle schilden.
         for (var n = 0; n < shields.length; n++) {
             if (shields[n].toDelete) {
                 shields.splice(n, 1);
             }
         }
 
-        //Onder tijd
+        //Zorgt ervoor dat de tijd begehouden kan worden voor cooldown systeem.
         oldTime = currentTime;
 
         //toont aantal levens
@@ -328,7 +341,7 @@ function draw() {
 
     }
 
-    //Zet het schip stil, als er geen toetsen ingedrukt worden, behalve de spatiebalk
+    //Zet het schip stil, als er geen toetsen ingedrukt worden (behalve de spatiebalk).
     function keyReleased() {
         if (key != ' ') {
             ship.setDir(0);
@@ -337,6 +350,7 @@ function draw() {
 
     //Zorgt voor de functionaliteit bij elke toets
     function keyPressed() {
+        //Zorgt ervoor dat je met spatie een kogel schiet.
         if (key === ' ' && cooldownCounter >= 1) {
             var bullet = new Bullet(ship.x, ship.y, 'ship', bubble);
             bullets.push(bullet);
@@ -344,26 +358,32 @@ function draw() {
             schietgeluid.play();
         }
 
+        //Zorgt ervoor dat je het ruimteschip met de pijltjestoetsen kunt besturen.
         if (keyCode === RIGHT_ARROW) {
             ship.setDir(1);
         } else if (keyCode === LEFT_ARROW) {
             ship.setDir(-1);
         }
 
-
+        //Zorgt ervoor dat het scherm pauzeert als er op 'esc' gedrukt wordt.
         if (keyCode === 27) {
             pauzescherm = !pauzescherm;
         }
     }
 
+//Deze functie wordt gebruikt voor de pauzeknop en zorgt ervoor dat de pauzescherm variabele aangepast wordt
+//zodat het spel pauzeert of uit pauze gaat.
 function pauze() {
     pauzescherm = !pauzescherm;
 }
 
+//Deze functie zorgt ervoor dat de pagina herladen wordt als je op de play knop klikt.
 function play() { 
     window.location.href = "index.html";
 }
 
+//Deze functie zorgt ervoor dat de indexnummer van de animatie geupdatet wordt na een gekozen tijd
+//zodat de animaties goed verlopen. 
 function updateNummer(countX, nummer, aantalBeeldjes) {
     if (frameCount % (fps / countX) == 0) {
         nummer++;
@@ -372,6 +392,7 @@ function updateNummer(countX, nummer, aantalBeeldjes) {
     return nummer;
 }
 
+//Deze functie maakt een button aan waarmee je het spel opnieuw kunt starten.
 function playButton() {
     button = createImg("overig/Play.png");
     button.position(innerWidth/2-22.5, innerHeight/2+30);
