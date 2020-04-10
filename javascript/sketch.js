@@ -77,7 +77,7 @@ function preload() {
     }
 
     for (var n = 1; n <= aantalBeeldjesShield; n++) {
-        nieuw_beeldje = loadImage("shield/Shield"+n+".png");
+        nieuw_beeldje = loadImage("Sh1.png");
         shieldA.push(nieuw_beeldje);
     }
 
@@ -91,7 +91,7 @@ function preload() {
         achtergrond.push(nieuw_beeldje);
     }
 
-    shieldIm = loadImage("overig/Sh1.png");
+    shieldIm = loadImage("Sh1.png");
 
 }
 
