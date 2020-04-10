@@ -128,7 +128,8 @@ function setup() {
     var shield = new Shield(0.35+n*0.15, shieldHeight, shieldIm);
     shields.push(shield);
   }
-
+  //Maakt een slider waarmee het volume van de geluiden kan worden aangepast. De minimale waarde is 0,00, de maximale waarde is 0,50.
+  //De slider staat standaard ingesteld op 0,25 en kan met stappen van 0,01 worden veranderd
   slider = createSlider(0, 0.5, 0.25, 0.01);
   soundtrack.loop();
 
@@ -144,9 +145,11 @@ function draw() {
 
     }
     else if (ship.lives == 0) {
+        //Als het aantal schepen van de speler gelijk is aan 0, stopt de muziek en wordt het geluidseffect voor verliezen gestart. 
         background(achtergrond[nummerAchtergrond]);
         if (!eindespel) {
             soundtrack.stop();
+            //Het volume van het geluid wordt ingesteld met de waarde van de slider
             verloren.setVolume(slider.value());
             verloren.play();
             playButton();
