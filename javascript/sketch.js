@@ -27,11 +27,13 @@ var enemies = [];
 var shields = [];
 var ruimtewezen = [];
 var ruimtemonster = [];
+var shieldA = [];
 var bubble = [];
 var achtergrond = [];
 
 var aantalBeeldjesRuimtewezen = 7;
 var aantalBeeldjesRuimtemonster = 9;
+var aantalBeeldjesShield = 3;
 var aantalBeeldjesBubble = 5;
 var aantalBeeldjesAchtergrond = 23;
 var nieuw_beeldje;
@@ -73,7 +75,10 @@ function preload() {
         ruimtemonster.push(nieuw_beeldje);
     }
 
-    shieldIm = loadImage("shield/Sh1.png");
+    for (var n = 1; n <= 2; n++) {
+        nieuw_beeldje = loadImage("shield/Sh"+n+".png");
+        shieldA.push(nieuw_beeldje);
+    }
 
     for (var n = 1; n <= aantalBeeldjesBubble; n++) {
         nieuw_beeldje = loadImage("bubble/Bubble"+n+".png");
@@ -125,7 +130,7 @@ function setup() {
   }
   //De for-loop maakt drie schilden aan.
   for (var n = 0; n < 3; n++) {
-    var shield = new Shield(0.35+n*0.15, shieldHeight, shieldIm);
+    var shield = new Shield(0.35+n*0.15, shieldHeight, shieldA);
     shields.push(shield);
   }
   //Maakt een slider waarmee het volume van de geluiden kan worden aangepast. De minimale waarde is 0,00, de maximale waarde is 0,50.
