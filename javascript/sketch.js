@@ -19,8 +19,6 @@ var victory;
 var verloren;
 var score = 0;
 var shieldHeight = 0.7*innerHeight;
-var pauzeIm;
-var shieldIm;
 
 var bullets = [];
 var enemies = [];
@@ -75,7 +73,7 @@ function preload() {
         ruimtemonster.push(nieuw_beeldje);
     }
 
-    for (var n = 1; n <= 2; n++) {
+    for (var n = 1; n <= aantalBeeldjesShield; n++) {
         nieuw_beeldje = loadImage("shield/Sh"+n+".png");
         shieldA.push(nieuw_beeldje);
     }

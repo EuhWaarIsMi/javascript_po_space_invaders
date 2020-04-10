@@ -9,19 +9,18 @@ function Shield(x, y, animatie) {
 
 
     this.show = function() {
-        noStroke();
-        fill('blue');
-        ellipse(this.x, this.y, this.r*2, this.r*2);
         image(this.animatie[this.nummer],this.x-this.r, this.y-this.r, this.r*2, this.r*2);
     }
 
     this.destroy = function() {
         this.r-=4;
-        if (this.r < 4) {
+        if (this.r < 6) {
             this.toDelete = true;
         }
-        else if (this.r == 32) {
-            this.nummer++;
+        else if (this.nummer+1 < this.animatie.length) {
+            if ((this.r == (this.animatie[this.nummer+1].width/2)+2) || (this.r == this.animatie[this.nummer+1].width/2-2)) {
+                this.nummer++;
+            }
         }
     }
 
