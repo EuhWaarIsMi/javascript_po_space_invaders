@@ -20,26 +20,23 @@ var verloren;
 var score = 0;
 var shieldHeight = 0.7*innerHeight;
 var pauzeIm;
-var shieldIm
+var shieldIm;
 
 var bullets = [];
 var enemies = [];
 var shields = [];
 var ruimtewezen = [];
 var ruimtemonster = [];
-var shieldA = [];
 var bubble = [];
 var achtergrond = [];
 
 var aantalBeeldjesRuimtewezen = 7;
 var aantalBeeldjesRuimtemonster = 9;
-var aantalBeeldjesShield = 6;
 var aantalBeeldjesBubble = 5;
 var aantalBeeldjesAchtergrond = 23;
 var nieuw_beeldje;
 var nummerRuimtewezen = 1;
 var nummerRuimtemonster = 1;
-var nummerShield = 1;
 var nummerBubble = 1;
 var nummerAchtergrond = 1;
 
@@ -76,10 +73,7 @@ function preload() {
         ruimtemonster.push(nieuw_beeldje);
     }
 
-    for (var n = 1; n <= aantalBeeldjesShield; n++) {
-        nieuw_beeldje = loadImage("Sh1.png");
-        shieldA.push(nieuw_beeldje);
-    }
+    shieldIm = loadImage("shield/Sh1.png");
 
     for (var n = 1; n <= aantalBeeldjesBubble; n++) {
         nieuw_beeldje = loadImage("bubble/Bubble"+n+".png");
@@ -91,7 +85,7 @@ function preload() {
         achtergrond.push(nieuw_beeldje);
     }
 
-    shieldIm = loadImage("Sh1.png");
+    
 
 }
 
@@ -131,7 +125,7 @@ function setup() {
   }
   //De for-loop maakt drie schilden aan.
   for (var n = 0; n < 3; n++) {
-    var shield = new Shield(0.35+n*0.15, shieldHeight, shieldA);
+    var shield = new Shield(0.35+n*0.15, shieldHeight, shieldIm);
     shields.push(shield);
   }
 
