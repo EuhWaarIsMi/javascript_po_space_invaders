@@ -1,6 +1,6 @@
 function Ship(lMarge, rMarge, animatie) {
   this.x = width/2;
-  this.y = height - 150;
+  this.y = height - 100;
   this.r = 30;
   this.lMarge = lMarge;
   this.rMarge = rMarge;

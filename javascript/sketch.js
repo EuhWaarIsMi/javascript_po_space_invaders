@@ -1,8 +1,8 @@
 var ship;
 var aantalEnemiesPerRij = 11;
 var aantalRijen = 5;
-var lMarge = 0.25;
-var rMarge = 0.75;
+var lMarge = 0.20;
+var rMarge = 0.70;
 var currentTime;
 var oldTime;
 var timeMargin;
@@ -315,8 +315,8 @@ function draw() {
 
         //toont aantal levens
         for (var n = 0; n < ship.lives; n++) {
-            var y = height-150;
-            var x = n*80 + 20;
+            var y = height-200;
+            var x = n*100-40;
             ship.create(x, y);
         }
 
