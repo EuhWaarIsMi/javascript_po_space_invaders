@@ -14,7 +14,6 @@ var aantalKogelsVijand = 2;
 var schietgeluid;
 var slider;
 var enemy_hit;
-var muziek;
 var volume;
 var victory;
 var verloren;
@@ -53,7 +52,6 @@ var eindespel = false;
 function preload() {
     schietgeluid = loadSound("music/schietgeluid.mp3");
     enemy_hit = loadSound("music/enemy_hit.mp3");
-    muziek = loadSound("music/muziek.mp3");
     victory = loadSound("music/win.mp3");
     verloren = loadSound("music/verloren.mp3");
     soundtrack = loadSound("music/soundtrack.wav");
@@ -114,7 +112,7 @@ function setup() {
     shields.push(shield);
   }
 
-  slider = createSlider(0, 1, 0.5, 0.01);
+  slider = createSlider(0, 0.5, 0.25, 0.01);
   soundtrack.loop();
 
 }
@@ -131,7 +129,6 @@ function draw() {
     else if (ship.lives == 0) {
         background(achtergrond[nummerAchtergrond]);
         if (!eindespel) {
-            muziek.stop();
             soundtrack.stop();
             verloren.setVolume(slider.value());
             verloren.play();
@@ -161,7 +158,7 @@ function draw() {
     else if (enemies[enemies.length-1].y >= shieldHeight) {
         background(achtergrond[nummerAchtergrond]);
         if (!eindespel) {
-            muziek.stop();
+            soundtrack.stop();
             verloren.setVolume(slider.value());
             verloren.play();
             playButton();
