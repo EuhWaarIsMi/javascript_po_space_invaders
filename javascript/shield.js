@@ -1,13 +1,13 @@
-function Shield(x, y, animatie) {
+function Shield(x, y, image) {
     this.x = x*width;
     this.y = y;
     this.r = 60;
     this.toDelete = false;
-    this.animatie = animatie;
+    this.image = image;
     this.nummer = 1;
 
     this.show = function(nummer) {
-        image(this.animatie[this.nummer],this.x-(this.animatie[this.nummer].width/2), this.y-(this.animatie[this.nummer].height/2));
+        image(this.image,this.x-(this.image.width/2), this.y-(this.image.height/2));
     }
 
     this.destroy = function() {

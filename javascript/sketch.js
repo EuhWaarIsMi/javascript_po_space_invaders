@@ -20,6 +20,7 @@ var verloren;
 var score = 0;
 var shieldHeight = 0.7*innerHeight;
 var pauzeIm;
+var shieldIm
 
 var bullets = [];
 var enemies = [];
@@ -49,14 +50,22 @@ var pauzescherm = false;
 var soundtrack;
 var eindespel = false;
 
+//Dit is de eerste functie die wordt gestart wanneer het spel wordt geopend.
+//De preload functie laad externe bestanden die nodig zijn om het spel te runnen.
+//Voorbeelden zijn de muziek en het lettertype.
 function preload() {
+    //De bestandslocatie van de geluiden wordt meegegeven aan een variabele.
+    //Zodra de preload klaar is kan de muziek gelijk beginnen te spelen in de setup- en drawfase.
     schietgeluid = loadSound("music/schietgeluid.mp3");
     enemy_hit = loadSound("music/enemy_hit.mp3");
     victory = loadSound("music/win.mp3");
     verloren = loadSound("music/verloren.mp3");
     soundtrack = loadSound("music/soundtrack.wav");
+    //De bestandslocatie van het lettertype wordt meegegeven aan een variabele.
     font = loadFont("overig/PressStart2P-Regular.ttf");
 
+    //De for-loop laat n oplopen tot het maximale aantal beeldjes in de animatie.
+    //De beeldjes worden opgeslagen in de bijbehorende array voor het figuur.
     for (var n = 1; n <= aantalBeeldjesRuimtewezen; n++) {
         nieuw_beeldje = loadImage("player/Player"+n+".png");
         ruimtewezen.push(nieuw_beeldje);
@@ -82,21 +91,34 @@ function preload() {
         achtergrond.push(nieuw_beeldje);
     }
 
+    shieldIm = loadImage("overig/Sh1.png");
+
 }
 
 
+    //De setup functie start wanneer het spel wordt geopend, nadat de preload is voltooid.
+    //Het beschrijft de eigenschappen van de spelomgeving en stelt deze in werking.
+    //Voorbeelden van deze eigenschappen zijn het lettertype en de canvasgrootte. 
 function setup() {
+    //Canvasgrootte wordt bepaald op basis van de afmetingen van de window.       
   createCanvas(innerWidth, innerHeight);
   frameRate(fps);
+    //De variabele van de preload met het lettertype wordt opgevraagd en geïnitieerd.
   textFont(font);
+    //Tekst wordt gecentreerd.
   textAlign(CENTER, CENTER);
+    //Het object Ship wordt aangemaakt en meegegeven aan de variabele.
+    //Het object krijgt de lMarge, rMarge en ruimtewezen mee als waarden om rekening mee te houden.
   ship = new Ship(lMarge, rMarge, ruimtewezen);
+    //De for-loop laat n oplopen tot de limiet is bereikt van de maximale vijanden.
   for (var n = 0; n < aantalEnemiesPerRij*aantalRijen; n++) {
+    //Indien n gelijk is aan 10, 21, 32 of 43 wordt onderstaande code uitgevoerd.
     if (n == 10 || n == 21 || n == 32 || n == 43) {    
         enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy, ruimtemonster);
         xEnemy = 0;
         yEnemy += 50;
-    } 
+    }
+    //Als n niet voldoet aan de eerder beschreven waarden geldt de volgende code. 
     else {
         enemies[n] = new Enemy(xEnemy*50+(lMarge*width), yEnemy, ruimtemonster);
         xEnemy += 1.3;
@@ -107,6 +129,7 @@ function setup() {
     button.mousePressed(pauze);
     
   }
+  //De for-loop maakt drie schilden aan.
   for (var n = 0; n < 3; n++) {
     var shield = new Shield(0.35+n*0.15, shieldHeight, shieldA);
     shields.push(shield);
@@ -179,10 +202,15 @@ function draw() {
 
 
         //Cooldown
+        //De variabele vraagt de seconden op aan de computerklok (0-59s).
         var s = second();
+        //De variabele vraagt de minuten op aan de computerklok (0-59m).
         var m = minute();
+        //De variabele vraagt de uren op aan de computerklok (0-24h).
         var h = hour();
+        //Het aantal seconden wordt uitgerekend van de huidige tijd.
         currentTime = s + 60*m + 3600*h;
+        //Het tijdsverschil wordt berekend en meegegeven aan een variabele.
         timeMargin = currentTime - oldTime;
         if (timeMargin == 1) {
             cooldownCounter++;
